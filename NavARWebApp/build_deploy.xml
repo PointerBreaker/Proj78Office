@@ -1,3 +1,7 @@
-<target name="jenkins-glassfish-deploy-updated" depends="clean, default, test"
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NavARWebApp" default="default" basedir=".">
+    <description>Builds, tests, and runs the project NavARWebApp.</description>
+	<target name="jenkins-glassfish-deploy-updated" depends="clean, default, test"
     	description="Clean, build, test and deploy application to GlassFish">	
 	</target>
+</project>
