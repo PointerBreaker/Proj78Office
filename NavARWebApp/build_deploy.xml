@@ -1,0 +1,3 @@
+<target name="jenkins-glassfish-deploy-updated" depends="clean, default, test"
+    	description="Clean, build, test and deploy application to GlassFish">	
+	</target>
