@@ -55,6 +55,5 @@ public class MeetingsService {
         }
         
         return json.toJSONString();
-    }
-    
+    }    
 }
