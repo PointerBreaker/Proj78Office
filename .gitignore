@@ -31,3 +31,4 @@
 # Debug files
 *.dSYM/
 /NavARWebApp/nbproject/private/*
+/NavARWebApp/nbproject/build-impl.xml
