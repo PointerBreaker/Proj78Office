@@ -30,5 +30,10 @@
 
 # Debug files
 *.dSYM/
-/NavARWebApp/nbproject/private/*
-/NavARWebApp/nbproject/build-impl.xml
+/NavARWebApp/nbproject/private/
+/NavARWebApp/build/
+/NavARWebApp/nbbuild/
+/NavARWebApp/dist/
+/NavARWebApp/nbdist/
+/NavARWebApp/nbactions.xml
+/NavARWebApp/.nb-gradle/
