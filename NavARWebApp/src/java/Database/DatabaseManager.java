@@ -5,6 +5,9 @@
  */
 package Database;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 /**
  *
  * @author Elize
@@ -16,9 +19,10 @@ public class DatabaseManager {
      * @return true if succesful
      */
     public boolean connectToDatabase(){
-    
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("NavARWebAppPU");
         return false;
     }
+    
     
     
 }
