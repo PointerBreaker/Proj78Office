@@ -10,7 +10,10 @@
 	<target name="init">
 		<mkdir dir="build/classes"/>
 		<mkdir dir="dist" />
-	<copy file="src/conf/persistence.xml" todir="build/classes/META-INF" failonerror="false" />
+	<copy todir="build/classes/META-INF">
+  		<fileset dir="src/conf">
+   		</fileset>
+	</copy>
 	</target>
 	
 	<target name="compile" depends="init" >

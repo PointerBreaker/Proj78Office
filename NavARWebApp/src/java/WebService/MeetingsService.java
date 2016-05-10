@@ -6,6 +6,13 @@
 package WebService;
 
 
+import Database.DatabaseManager;
+import WebService.JSONManager;
+import static Database.DatabaseManager.getNewEntityManager;
+import Database.Meetings;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -29,42 +36,22 @@ public class MeetingsService {
     @Path("getAllMeetings")
     @Produces("application/json")
     public String getAllMeetings(){
-        JSONObject json = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        
-        JSONObject json1 = new JSONObject();
-        json1.put("meeting_id", "1");
-        json1.put("meeting_room_id", "10");
-        json1.put("employee_id", "101");
-        json1.put("time", "10-05-2016");
-        json1.put("company_id", "501");
-        json1.put("meeting_code", "12356987");
-        jsonArray.add(json1);
-        
-        JSONObject json2 = new JSONObject();
-        json2.put("meeting_id", "2");
-        json2.put("meeting_room_id", "7");
-        json2.put("employee_id", "12401");
-        json2.put("time", "10-10-2016");
-        json2.put("company_id", "506");
-        json2.put("meeting_code", "14588564");
-        jsonArray.add(json1);
-        
-        
-        
-        json.put("meetings",jsonArray);
-
-       return json.toJSONString();
+        EntityManager em = DatabaseManager.getNewEntityManager();
+        Query q = em.createNamedQuery("Meetings.findAll");
+        return JSONManager.getJSONObjectByList(q.getResultList()).toJSONString();
     }  
     
     
     @GET
     @Path("getMeetingById")
     @Produces("application/json")
-    public String getMeetingById(@QueryParam("meetingId") String meetingId){
-        JSONObject json = new JSONObject();
-        json.put("id", meetingId);        
-        return json.toJSONString();
+    public String getMeetingById(@QueryParam("meetingId") int meetingId){
+        JSONObject json = new JSONObject();        
+        EntityManager em = DatabaseManager.getNewEntityManager();
+        Query q = em.createNamedQuery("Meetings.findByMeetingId");
+        q.setParameter("meetingId", meetingId);
+        return JSONManager.getJSONObjectByList(q.getResultList()).toJSONString();
+        
     }
     
     //TODO test this
@@ -74,12 +61,14 @@ public class MeetingsService {
     public String putMeeting(String meeting){
         JSONParser parser = new JSONParser();
         JSONObject json;
-        try {
-            json = (JSONObject) parser.parse(meeting);
-        } catch (ParseException ex) {
-            return (new JSONObject().put("message", "Not a JSON object!").toString());
-        }
-        
-        return json.toJSONString();
+            try {
+                json = (JSONObject) parser.parse(meeting);
+            } catch (ParseException ex) {
+                return (new JSONObject().put("message", "Not a JSON object!").toString());
+            }
+        Meetings newMeeting = Meetings.createNewMeetingByJSONObject(json);
+        EntityManager em = DatabaseManager.getNewEntityManager();
+        em.persist(newMeeting);            
+        return (json.put("succes", "true")).toString();
     }    
 }

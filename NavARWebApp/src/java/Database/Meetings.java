@@ -6,7 +6,11 @@
 package Database;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +23,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -132,7 +137,47 @@ public class Meetings implements Serializable {
 
     @Override
     public String toString() {
-        return "Database.Meetings[ meetingId=" + meetingId + " ]";
+
+        JSONObject json = new JSONObject();
+        json.put("meeting_id", meetingId);
+        json.put("meeting_room_id", meetingRoomId);
+        json.put("company_id", companyId);
+        json.put("employee_id", employeeId);
+        json.put("time", time);
+        json.put("meeting_code", meetingCode);
+    
+        return json.toJSONString();
+    }
+    
+    public static Meetings createNewMeetingByJSONObject(JSONObject jsonObject){
+    
+        if(!jsonObject.containsKey("meeting_id")
+                || !jsonObject.containsKey("meeting_room_id")
+                || !jsonObject.containsKey("company_id")
+                || !jsonObject.containsKey("employee_id")
+                || !jsonObject.containsKey("meeting_id")
+                || !jsonObject.containsKey("time")
+                || !jsonObject.containsKey("meeting_code")                
+                ){
+            return null;
+        }
+               
+        Meetings newMeeting = new Meetings();
+        newMeeting.setMeetingId((Integer) jsonObject.get("meeting_id"));
+        newMeeting.setCompanyId((Integer) jsonObject.get("company_id"));
+        newMeeting.setEmployeeId((Integer) jsonObject.get("employee_id"));
+        newMeeting.setMeetingCode((String) jsonObject.get("meeting_code"));
+        newMeeting.setMeetingRoomId((Integer) jsonObject.get("meeting_room_id"));
+        
+        Date newTime = null;
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+            newTime = format.parse((String) jsonObject.get("time"));
+        } catch (ParseException ex) {
+            Logger.getLogger(Meetings.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        newMeeting.setTime(newTime);       
+        return newMeeting;
     }
     
 }
