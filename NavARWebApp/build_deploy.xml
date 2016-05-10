@@ -20,7 +20,6 @@
 	
 	<target name="war" depends="compile">
 		<war destfile="dist/NavARWebApp.war" webxml="web/WEB-INF/web.xml">
-			<fileset dir="WebContent"/>
 			<lib dir="web/WEB-INF/lib"/>
 			<classes dir="build/classes"/>
 		</war>
