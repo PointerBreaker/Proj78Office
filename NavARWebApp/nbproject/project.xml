@@ -37,6 +37,10 @@
                     <file>${file.reference.org.eclipse.persistence.jpa.modelgen_2.5.2.v20140319-9ad6abd.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="200">
+                    <file>${file.reference.javax.validation-1.0.0.GA.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
