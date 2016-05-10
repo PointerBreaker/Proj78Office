@@ -16,7 +16,7 @@
 		<javac destdir="build/classes" debug="true" srcdir="src">
 			<classpath refid="compile.classpath"/>
 		</javac>
-	<copy file="${src.conf}/persistence.xml" todir="${war.build.dir}/WEB-INF/classes/META-INF" failonerror="false" />
+	<copy file="src/conf/persistence.xml" todir="${war.build.dir}/WEB-INF/classes/META-INF" failonerror="false" />
 	</target>
 	
 	<target name="war" depends="compile">
