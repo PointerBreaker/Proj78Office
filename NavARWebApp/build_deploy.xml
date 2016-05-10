@@ -10,13 +10,13 @@
 	<target name="init">
 		<mkdir dir="build/classes"/>
 		<mkdir dir="dist" />
+	<copy file="src/conf/persistence.xml" todir="build/classes/META-INF" failonerror="false" />
 	</target>
 	
 	<target name="compile" depends="init" >
 		<javac destdir="build/classes" debug="true" srcdir="src">
 			<classpath refid="compile.classpath"/>
 		</javac>
-	<copy file="src/conf/persistence.xml" todir="build/classes/META-INF" failonerror="false" />
 	</target>
 	
 	<target name="war" depends="compile">
