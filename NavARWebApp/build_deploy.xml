@@ -5,9 +5,6 @@
 		<fileset dir="web/WEB-INF/lib">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="src/java">
-			<include name="META-INF/*.*"/>
-		</fileset>
 	</path>
 	
 	<target name="init">
@@ -19,6 +16,7 @@
 		<javac destdir="build/classes" debug="true" srcdir="src">
 			<classpath refid="compile.classpath"/>
 		</javac>
+		<copy file="${src.conf}/META-INF/persistence.xml" todir="${pu.build.dir}/META-INF/" failonerror="false" />
 	</target>
 	
 	<target name="war" depends="compile">
