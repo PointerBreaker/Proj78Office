@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,7 +30,30 @@ public class MeetingsService {
     @Produces("application/json")
     public String getAllMeetings(){
         JSONObject json = new JSONObject();
-        json.put("name", "Hello world!");
+        JSONArray jsonArray = new JSONArray();
+        
+        JSONObject json1 = new JSONObject();
+        json1.put("meeting_id", "1");
+        json1.put("meeting_room_id", "10");
+        json1.put("employee_id", "101");
+        json1.put("time", "10-05-2016");
+        json1.put("company_id", "501");
+        json1.put("meeting_code", "12356987");
+        jsonArray.add(json1);
+        
+        JSONObject json2 = new JSONObject();
+        json2.put("meeting_id", "2");
+        json2.put("meeting_room_id", "7");
+        json2.put("employee_id", "12401");
+        json2.put("time", "10-10-2016");
+        json2.put("company_id", "506");
+        json2.put("meeting_code", "14588564");
+        jsonArray.add(json1);
+        
+        
+        
+        json.put("meetings",jsonArray);
+
        return json.toJSONString();
     }  
     
