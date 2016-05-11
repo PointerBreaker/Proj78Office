@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -107,8 +108,29 @@ public class Employees implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Database.Employees[ employeeId=" + employeeId + " ]";
+    public String toString() {        
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("employee_id", employeeId);
+        jsonObject.put("name", name);
+        jsonObject.put("password", password);
+        jsonObject.put("salt", salt);
+        return jsonObject.toJSONString();        
+    }
+    
+    public static Employees createEmployeeByJson(JSONObject jsonObject){
+        if(!jsonObject.containsKey("employee_id") 
+                || !jsonObject.containsKey("name")
+                || !jsonObject.containsKey("password")
+                || !jsonObject.containsKey("salt")){
+        return null;
+        }
+        
+        Employees newEmployee = new Employees();
+        newEmployee.setEmployeeId((Integer) jsonObject.get("employee_id"));
+        newEmployee.setName((String) jsonObject.get("name"));
+        newEmployee.setPassword((String) jsonObject.get("password"));
+        newEmployee.setSalt((String) jsonObject.get("salt"));        
+        return newEmployee;
     }
     
 }

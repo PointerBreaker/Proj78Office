@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -84,7 +86,23 @@ public class Companies implements Serializable {
 
     @Override
     public String toString() {
-        return "Database.Companies[ companyId=" + companyId + " ]";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("company_id", this.companyId);
+        jsonObject.put("name", this.name);
+        return jsonObject.toJSONString();
+    }
+    
+    public static Companies createNewCompanyByJSON(JSONObject jsonObject){
+        if(!jsonObject.containsKey("company_id") ||
+           !jsonObject.containsKey("name")){
+            return null;
+        }
+        
+        Companies newCompany = new Companies();
+        newCompany.setCompanyId((Integer) jsonObject.get("company_id"));
+        newCompany.setName((String) jsonObject.get("name"));
+        return newCompany;    
+  
     }
     
 }

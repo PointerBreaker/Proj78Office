@@ -19,7 +19,7 @@ import org.json.simple.parser.ParseException;
  */
 public class JSONManager {
     
-    public static JSONObject getJSONObjectByList(List list){
+    public static JSONObject getJSONObjectByList(List list, String arrayName){
         JSONObject json = new JSONObject();
         try{        
         JSONArray jsonArray = new JSONArray();        
@@ -27,7 +27,7 @@ public class JSONManager {
                 JSONParser parser = new JSONParser();
                 jsonArray.add((JSONObject) parser.parse(object.toString()));
             }
-        json.put("meetings", jsonArray);        
+        json.put(arrayName, jsonArray);        
         } catch (ParseException ex) {
             Logger.getLogger(JSONManager.class.getName()).log(Level.SEVERE, null, ex);
         }
