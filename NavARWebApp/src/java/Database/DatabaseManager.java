@@ -23,7 +23,7 @@ public class DatabaseManager {
      * @return true if succesful
      */
     public static boolean connectToDatabase(){
-        emf = Persistence.createEntityManagerFactory("NavARWebAppPU2");
+        emf = Persistence.createEntityManagerFactory("NavARWebAppPU");
         if(emf != null && emf.isOpen()){
             return true;
         }else{
