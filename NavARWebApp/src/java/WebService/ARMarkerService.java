@@ -18,8 +18,6 @@ import javax.ws.rs.Path;
 @Path("ARMarkers")
 public class ARMarkerService {
     
-    //TODO get markers?
-    
     @GET
     @Path("getAllARMarkers")
     public String getAllARMarkers(){

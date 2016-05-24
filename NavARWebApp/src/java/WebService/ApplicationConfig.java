@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application{
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(WebService.ARMarkerService.class);
         resources.add(WebService.CompanyService.class);
+        resources.add(WebService.CustomerCheckInService.class);
         resources.add(WebService.EmployeesService.class);
         resources.add(WebService.MeetingsService.class);
         resources.add(WebService.RouteService.class);
