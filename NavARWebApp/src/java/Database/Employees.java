@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
  * @author Rianne
  */
 @Entity
-@Table(name = "employees")
+@Table(name = "employees") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e"),
