@@ -38,6 +38,8 @@ public class MeetingsService {
     public String getAllMeetings(){
         EntityManager em = DatabaseManager.getNewEntityManager();
         Query q = em.createNamedQuery("Meetings.findAll");
+        em.clear();
+        em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
     }  
     
@@ -50,6 +52,8 @@ public class MeetingsService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         Query q = em.createNamedQuery("Meetings.findByMeetingId");
         q.setParameter("meetingId", meetingId);
+        em.clear();
+        em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
         
     }
@@ -70,7 +74,9 @@ public class MeetingsService {
         
         if(newMeeting != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
-            em.persist(newMeeting);          
+            em.persist(newMeeting);     
+            em.clear();
+            em.close();
             return (json.put("succes", "true")).toString();
         }else{
             return (json.put("succes", "false")).toString();

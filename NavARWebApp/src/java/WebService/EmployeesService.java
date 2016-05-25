@@ -33,6 +33,8 @@ public class EmployeesService {
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
         Query q = em.createNamedQuery("Employees.findAll");
+        em.clear();
+        em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "employees").toJSONString();
     }
     
@@ -43,6 +45,8 @@ public class EmployeesService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         Query q = em.createNamedQuery("Employees.findByEmployeeId");
         q.setParameter("employeeId", employeeId);
+        em.clear();
+        em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "employees").toJSONString();
     }
     
@@ -66,6 +70,8 @@ public class EmployeesService {
         if(employee != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
             em.persist(employee);          
+            em.clear();
+            em.close();
             return (returnJsonObject.put("succes", "true")).toString();
         }else{
             return (returnJsonObject.put("succes", "false")).toString();
@@ -78,15 +84,17 @@ public class EmployeesService {
         
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
-//        Query q = em.createNamedQuery("Employees.findByPasswordAndName");
-//        q.setParameter("name", name);
-//        q.setParameter("password", password);
-        Query q = em.createNativeQuery("SELECT employee_id FROM employees WHERE name = \"" + name + "\" AND password = \"" + password + "\"");
+        Query q = em.createNamedQuery("Employees.findByPasswordAndName");
+        q.setParameter("name", name);
+        q.setParameter("password", password);
+        //Query q = em.createNativeQuery("SELECT employee_id FROM employees WHERE name = \"" + name + "\" AND password = \"" + password + "\"");
         if(q.getResultList().isEmpty()){
             json.put("succes", "false");
         }else{
             json.put("succes", "true");
         }
+        em.clear();
+        em.close();
         
         return json.toJSONString();
     }
