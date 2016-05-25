@@ -72,5 +72,23 @@ public class EmployeesService {
         }        
     }
     
+    @GET
+    @Path("LogIn")
+    public String logIn(@QueryParam("name")String name, @QueryParam("password") String password){
+        
+        JSONObject json = new JSONObject();
+        EntityManager em = DatabaseManager.getNewEntityManager();
+        Query q = em.createNamedQuery("Employees.findByPasswordAndName");
+        q.setParameter("name", name);
+        q.setParameter("password", password);
+        if(q.getResultList().isEmpty()){
+            json.put("succes", "false");
+        }else{
+            json.put("succes", "true");
+        }
+        
+        return json.toJSONString();
+    }
+    
     
 }

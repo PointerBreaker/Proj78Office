@@ -30,6 +30,7 @@ import org.json.simple.JSONObject;
     @NamedQuery(name = "Employees.findByEmployeeId", query = "SELECT e FROM Employees e WHERE e.employeeId = :employeeId"),
     @NamedQuery(name = "Employees.findByName", query = "SELECT e FROM Employees e WHERE e.name = :name"),
     @NamedQuery(name = "Employees.findByPassword", query = "SELECT e FROM Employees e WHERE e.password = :password"),
+    @NamedQuery(name = "Employees.findByPasswordAndName", query = "SELECT e FROM Employees e WHERE e.password = :password AND e.name = :name"),
     @NamedQuery(name = "Employees.findBySalt", query = "SELECT e FROM Employees e WHERE e.salt = :salt")})
 public class Employees implements Serializable {
     private static final long serialVersionUID = 1L;
