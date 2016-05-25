@@ -78,9 +78,10 @@ public class EmployeesService {
         
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
-        Query q = em.createNamedQuery("Employees.findByPasswordAndName");
-        q.setParameter("name", name);
-        q.setParameter("password", password);
+//        Query q = em.createNamedQuery("Employees.findByPasswordAndName");
+//        q.setParameter("name", name);
+//        q.setParameter("password", password);
+        Query q = em.createNativeQuery("SELECT employee_id FROM employees WHERE name = \"" + name + "\" AND password = \"" + password + "\"", Employees.class);
         if(q.getResultList().isEmpty()){
             json.put("succes", "false");
         }else{
