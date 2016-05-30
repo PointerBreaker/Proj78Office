@@ -37,7 +37,9 @@ public class MeetingsService {
     @Produces("application/json")
     public String getAllMeetings(){
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findAll");
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
@@ -50,8 +52,10 @@ public class MeetingsService {
     public String getMeetingById(@QueryParam("meetingId") int meetingId){
         JSONObject json = new JSONObject();        
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findByMeetingId");
         q.setParameter("meetingId", meetingId);
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
@@ -74,7 +78,9 @@ public class MeetingsService {
         
         if(newMeeting != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
+            em.getTransaction().begin();
             em.persist(newMeeting);     
+            em.getTransaction().commit();
             em.clear();
             em.close();
             return (json.put("succes", "true")).toString();

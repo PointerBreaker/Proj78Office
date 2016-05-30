@@ -32,7 +32,9 @@ public class EmployeesService {
     public String getAllEmployees(){
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Employees.findAll");
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "employees").toJSONString();
@@ -43,8 +45,10 @@ public class EmployeesService {
     public String getEmployeeById(@QueryParam("employeeId") int employeeId ){        
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Employees.findByEmployeeId");
         q.setParameter("employeeId", employeeId);
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "employees").toJSONString();
@@ -69,7 +73,9 @@ public class EmployeesService {
                              
         if(employee != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
-            em.persist(employee);          
+            em.getTransaction().begin();
+            em.persist(employee);
+            em.getTransaction().commit();
             em.clear();
             em.close();
             return (returnJsonObject.put("succes", "true")).toString();
@@ -83,6 +89,7 @@ public class EmployeesService {
     public String logIn(@QueryParam("name")String name, @QueryParam("password") String password){        
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Employees.findByPasswordAndName");
         q.setParameter("name", name);
         q.setParameter("password", password);
@@ -91,10 +98,10 @@ public class EmployeesService {
         }else{
             json.put("succes", "true");
         }
+        em.getTransaction().commit();
         em.clear();
         em.close();        
         return json.toJSONString();
-    }
-    
+    }   
     
 }

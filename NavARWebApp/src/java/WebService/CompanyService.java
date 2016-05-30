@@ -30,7 +30,9 @@ public class CompanyService {
     @Path("getAllCompanies")
     public String getAllCompanies(){
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Companies.findAll");
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "companies").toJSONString();
@@ -41,8 +43,10 @@ public class CompanyService {
     public String getCompanyByID(@QueryParam("companyId") int companyId ){
         
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("Companies.findByCompanyId");
         q.setParameter("companyId", companyId);
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "companies").toJSONString();
@@ -67,7 +71,9 @@ public class CompanyService {
         Companies company = Companies.createNewCompanyByJSON(jsonObject);                         
         if(company != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
+            em.getTransaction().begin();
             em.persist(company);   
+            em.getTransaction().commit();
             em.clear();
             em.close();
             return (returnJsonObject.put("succes", "true")).toString();

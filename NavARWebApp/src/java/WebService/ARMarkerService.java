@@ -22,7 +22,9 @@ public class ARMarkerService {
     @Path("getAllARMarkers")
     public String getAllARMarkers(){
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q = em.createNamedQuery("ArMarkers.findAll");
+        em.getTransaction().commit();
         em.clear();
         em.close();
         return JSONManager.getJSONObjectByList(q.getResultList(), "ARmarkers").toJSONString();
