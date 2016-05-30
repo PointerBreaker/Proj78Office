@@ -20,28 +20,34 @@ import org.json.simple.parser.ParseException;
 public class JSONManager {
     
     public static JSONObject getJSONObjectByList(List list, String arrayName){
-        
+        JSONObject json = new JSONObject();  
         if(!list.isEmpty()){
             try{  
-                JSONObject json = new JSONObject();    
+                  
                 JSONArray jsonArray = new JSONArray();        
                 for(Object object: list){
                     JSONParser parser = new JSONParser();
                     jsonArray.add((JSONObject) parser.parse(object.toString()));
                 }
-                json.put(arrayName, jsonArray);        
-                return json;
+                json.put(arrayName, jsonArray);     
+                
+                return getSuccesMessageJSON(json);
             } catch (ParseException ex) {
                 Logger.getLogger(JSONManager.class.getName()).log(Level.SEVERE, null, ex);
             }        
         }
-        return getErrorMessageJSON();
+        return getErrorMessageJSON(json);
         
     }
     
-    private static JSONObject getErrorMessageJSON(){
-        JSONObject json = new JSONObject();
+    private static JSONObject getErrorMessageJSON(JSONObject json){        
         json.put("succes", "false");
+        return json;
+    }
+    
+      
+    private static JSONObject getSuccesMessageJSON(JSONObject json){
+        json.put("succes", "true");
         return json;
     }
     

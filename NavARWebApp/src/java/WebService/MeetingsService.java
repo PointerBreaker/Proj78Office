@@ -48,14 +48,14 @@ public class MeetingsService {
     
     
     @GET
-    @Path("getMeetingById")
+    @Path("getMeetingByCode")
     @Produces("application/json")
-    public String getMeetingById(@QueryParam("meetingId") int meetingId){
+    public String getMeetingByMeetingCode(@QueryParam("meetingCode") int meetingCode){
         JSONObject json = new JSONObject();        
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
-        Query q = em.createNamedQuery("Meetings.findByMeetingId");
-        q.setParameter("meetingId", meetingId);
+        Query q = em.createNamedQuery("Meetings.findByMeetingCode");
+        q.setParameter("meetingCode", meetingCode);
         List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
