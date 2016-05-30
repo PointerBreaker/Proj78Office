@@ -7,6 +7,7 @@ package WebService;
 
 import Database.Companies;
 import Database.DatabaseManager;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -32,10 +33,11 @@ public class CompanyService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Companies.findAll");
+        List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(q.getResultList(), "companies").toJSONString();
+        return JSONManager.getJSONObjectByList(results, "companies").toJSONString();
     }
     
     @GET
@@ -46,10 +48,11 @@ public class CompanyService {
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Companies.findByCompanyId");
         q.setParameter("companyId", companyId);
+        List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(q.getResultList(), "companies").toJSONString();
+        return JSONManager.getJSONObjectByList(results, "companies").toJSONString();
     }
     
     

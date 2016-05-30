@@ -6,6 +6,7 @@
 package WebService;
 
 import Database.DatabaseManager;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.GET;
@@ -24,9 +25,10 @@ public class ARMarkerService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("ArMarkers.findAll");
+        List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(q.getResultList(), "ARmarkers").toJSONString();
+        return JSONManager.getJSONObjectByList(results, "ARmarkers").toJSONString();
     }
 }

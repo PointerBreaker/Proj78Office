@@ -39,10 +39,11 @@ public class MeetingsService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findAll");
+        List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
+        return JSONManager.getJSONObjectByList(results, "meetings").toJSONString();
     }  
     
     
@@ -55,10 +56,11 @@ public class MeetingsService {
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findByMeetingId");
         q.setParameter("meetingId", meetingId);
+        List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(q.getResultList(), "meetings").toJSONString();
+        return JSONManager.getJSONObjectByList(results, "meetings").toJSONString();
         
     }
     
