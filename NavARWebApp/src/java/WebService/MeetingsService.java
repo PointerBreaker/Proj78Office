@@ -50,7 +50,7 @@ public class MeetingsService {
     @GET
     @Path("getMeetingByCode")
     @Produces("application/json")
-    public String getMeetingByMeetingCode(@QueryParam("meetingCode") int meetingCode){
+    public String getMeetingByMeetingCode(@QueryParam("meetingCode") String meetingCode){
         JSONObject json = new JSONObject();        
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
