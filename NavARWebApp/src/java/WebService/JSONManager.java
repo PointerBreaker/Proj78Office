@@ -47,7 +47,7 @@ public class JSONManager {
     
       
     private static JSONObject getSuccesMessageJSON(JSONObject json){
-        json.put("succes", "true");
+        json.put("success", "true");
         return json;
     }
     
