@@ -8,12 +8,9 @@ package WebService;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.faces.bean.RequestScoped;
-import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -26,8 +23,6 @@ import javax.mail.internet.MimeMessage;
  * @author Elize
  */
 
-@Named
-@RequestScoped
 public class EmailSenderClass {
     
     private final String applicationEmailAddress = "TamTamMeetingNotifier@gmail.nl";
