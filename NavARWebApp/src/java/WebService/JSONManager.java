@@ -41,7 +41,7 @@ public class JSONManager {
     }
     
     private static JSONObject getErrorMessageJSON(JSONObject json){        
-        json.put("succes", "false");
+        json.put("success", "false");
         return json;
     }
     
