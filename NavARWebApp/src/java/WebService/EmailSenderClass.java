@@ -26,7 +26,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailSenderClass {
     
     private final String applicationEmailAddress = "TamTamMeetingNotifier@gmail.nl";
-    @Resource(lookup = "TamTamMeetingEmailService")
+    @Resource(name = "mail/TamTamMeetingEmailService")
     private Session mailSession;
     
     public void sendEmail(String recipientEmailAddress){
