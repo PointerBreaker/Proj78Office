@@ -37,10 +37,10 @@
 <target name="generate-MetaModel" depends="compile">
 <property name="metaPackage" value="metamodel"/>
 <delete>
-    <fileset dir="${src.dir}"  includes="\*\*/\*_.java"/>
+    <fileset dir="src"  includes="\*\*/\*_.java"/>
 </delete>
 <echo message="Generating MetaData "/>
-<javac   srcdir="${src.dir}" verbose="false"
+<javac   srcdir="src" verbose="false"
     destdir="src"
     excludes="demo/\*\*"
     classpath="${javac.classpath}">
