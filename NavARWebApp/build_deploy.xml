@@ -22,7 +22,7 @@
 		</javac>
 	</target>
 	
-	<target name="war" depends="compile">
+	<target name="war" depends="generate-MetaModel">
 		<war destfile="dist/NavARWebApp.war" webxml="web/WEB-INF/web.xml">
 			<lib dir="web/WEB-INF/lib"/>
 			<classes dir="build/classes"/>
@@ -33,5 +33,21 @@
 		<delete dir="dist" />
 		<delete dir="build" />
 	</target>
-	
+
+<target name="generate-MetaModel" depends="compile">
+<property name="metaPackage" value="metamodel"/>
+<delete>
+    <fileset dir="${src.dir}"  includes="\*\*/\*_.java"/>
+</delete>
+<echo message="Generating MetaData "/>
+<javac   srcdir="${src.dir}" verbose="false"
+    destdir="${src.dir}"
+    excludes="demo/\*\*"
+    classpath="${javac.classpath}">
+    <compilerarg line=" -processor org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor" />
+    <compilerarg line=" -proc:only" compiler="javac1.6" />
+
+</javac>
+
+</target>	
 </project>
