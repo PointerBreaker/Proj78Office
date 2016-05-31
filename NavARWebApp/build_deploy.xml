@@ -41,7 +41,7 @@
 </delete>
 <echo message="Generating MetaData "/>
 <javac   srcdir="${src.dir}" verbose="false"
-    destdir="${src.dir}"
+    destdir="src"
     excludes="demo/\*\*"
     classpath="${javac.classpath}">
     <compilerarg line=" -processor org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor" />
