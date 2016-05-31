@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -102,7 +103,11 @@ public class MeetingRooms implements Serializable {
 
     @Override
     public String toString() {
-        return "Database.MeetingRooms[ meetingRoomId=" + meetingRoomId + " ]";
+        JSONObject json = new JSONObject();
+        json.put("meeting_room_id", meetingRoomId);
+        json.put("name", name);
+        json.put("ar_marker_id", arMarkerId);
+        return json.toJSONString();
     }
     
 }

@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application{
         resources.add(WebService.CompanyService.class);
         resources.add(WebService.CustomerCheckInService.class);
         resources.add(WebService.EmployeesService.class);
+        resources.add(WebService.MeetingRoomService.class);
         resources.add(WebService.MeetingsService.class);
         resources.add(WebService.RouteService.class);
     }
