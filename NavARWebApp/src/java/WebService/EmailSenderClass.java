@@ -8,6 +8,7 @@ package WebService;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -26,15 +27,21 @@ import javax.mail.internet.MimeMessage;
 public class EmailSenderClass {
     
     private final String applicationEmailAddress = "TamTamMeetingNotifier@gmail.nl";
-    @Resource(name = "mail/TamTamMeetingEmailService")
-    private Session mailSession;
+//    @Resource(name = "mail/TamTamMeetingEmailService")
+//    private Session mailSession;
     
     public void sendEmail(String recipientEmailAddress){
               
         try{
+        Properties props = System.getProperties();
+        props.setProperty("mail.smtp.host", "localhost");
+        props.setProperty("mail.smtp.port", "53");
+        props.put("mail.smtp.username", "admin@mydomain.com");
+        props.put("mail.smtp.password", "adminpassword");
+        Session mailSession = Session.getDefaultInstance(props);   
         // Create a default MimeMessage object.
         MimeMessage message = new MimeMessage(mailSession);
-        message.setFrom(new InternetAddress(mailSession.getProperty("mail.from")));
+        message.setFrom(new InternetAddress(applicationEmailAddress));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmailAddress));
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();

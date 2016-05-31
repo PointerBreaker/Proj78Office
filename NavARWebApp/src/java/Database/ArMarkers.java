@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -71,7 +72,9 @@ public class ArMarkers implements Serializable {
 
     @Override
     public String toString() {
-        return "Database.ArMarkers[ arMarkerId=" + arMarkerId + " ]";
+        JSONObject json = new JSONObject();
+        json.put("ar_marker_id", arMarkerId);
+        return json.toJSONString();
     }
     
 }

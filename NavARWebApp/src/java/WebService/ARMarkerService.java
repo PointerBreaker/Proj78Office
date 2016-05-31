@@ -14,7 +14,7 @@ import javax.ws.rs.Path;
 
 /**
  *
- * @author School
+ * @author Elize
  */
 @Path("ARMarkers")
 public class ARMarkerService {
