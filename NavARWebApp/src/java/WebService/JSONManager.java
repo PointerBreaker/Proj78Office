@@ -27,7 +27,6 @@ public class JSONManager {
                 JSONArray jsonArray = new JSONArray();        
                 for(Object object: list){
                     JSONParser parser = new JSONParser();
-                    System.out.println(object.toString());
                     jsonArray.add((JSONObject) parser.parse(object.toString()));
                 }
                 json.put(arrayName, jsonArray);     
