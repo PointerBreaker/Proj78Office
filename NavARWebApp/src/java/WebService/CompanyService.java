@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -58,6 +59,7 @@ public class CompanyService {
     
     //TODO test this
     @PUT
+    @Consumes("application/json")
     @Path("putCompany")
     public String putCompany(String companyJSONString){
         JSONObject returnJsonObject = new JSONObject();

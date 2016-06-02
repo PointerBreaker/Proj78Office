@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -59,6 +60,7 @@ public class EmployeesService {
     
     //TODO test this
     @PUT
+    @Consumes("application/json")
     @Path("putEmployee")
     public String putEmployee(String employeeJSONString){
         JSONObject returnJsonObject = new JSONObject();
@@ -109,7 +111,6 @@ public class EmployeesService {
     @GET
     @Path("getMeetingroomIdsByEmployeeId")
     public String getMeetingroomIdsByEmployeeId(@QueryParam("employeeId") int employeeId){        
-        JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findMeetingRoomIdByEmployee");
