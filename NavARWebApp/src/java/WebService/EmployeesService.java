@@ -57,7 +57,6 @@ public class EmployeesService {
         return JSONManager.getJSONObjectByList(results, "employees").toJSONString();
     }
     
-    
     //TODO test this
     @PUT
     @Path("putEmployee")
@@ -113,12 +112,12 @@ public class EmployeesService {
         JSONObject json = new JSONObject();
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
-        Query q = em.createNamedQuery("Meetings.findMeetinrRoomIdByEmployee");
+        Query q = em.createNamedQuery("Meetings.findMeetingRoomIdByEmployee");
         q.setParameter("employeeId", employeeId);
         List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
         em.close();        
         return JSONManager.getJSONObjectByList(results, "meetingRooms").toJSONString();
-    }   
+    }
 }
