@@ -102,7 +102,6 @@ public class EmployeesService {
             json.put("succes", "false");
         }else{
             json = JSONManager.getJSONObjectByList(results, "employees");
-            json.put("succes", "true");
         }
         em.getTransaction().commit();
         em.clear();
