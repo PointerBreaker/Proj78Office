@@ -21,15 +21,16 @@ public class JSONManager {
     
     public static JSONObject getJSONObjectByList(List list, String arrayName){
         JSONObject json = new JSONObject();  
-        if(!list.isEmpty()){
-            try{  
-                  
+        if(list.isEmpty()){
+            json = getErrorMessageJSON(json);
+            json.put("reason", "no results");
+        }else{
+            try{                    
                 JSONArray jsonArray = new JSONArray();        
                 for(Object object: list){
                     JSONParser parser = new JSONParser();
                     System.out.println(object.toString());
-                    jsonArray.add((JSONObject) parser.parse(object.toString()));
-                    
+                    jsonArray.add((JSONObject) parser.parse(object.toString()));                    
                 }
                 json.put(arrayName, jsonArray);     
                 
