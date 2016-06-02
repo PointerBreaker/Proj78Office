@@ -144,7 +144,7 @@ public class Meetings implements Serializable {
         json.put("meeting_room_id", meetingRoomId);
         json.put("company_id", companyId);
         json.put("employee_id", employeeId);
-        json.put("time", time);
+        json.put("time", time.toString());
         json.put("meeting_code", meetingCode);
     
         return json.toJSONString();
