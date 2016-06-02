@@ -107,4 +107,18 @@ public class EmployeesService {
         return json.toJSONString();
     }   
     
+    @GET
+    @Path("getMeetingroomIdsByEmployeeId")
+    public String getMeetingroomIdsByEmployeeId(@QueryParam("employeeId") int employeeId){        
+        JSONObject json = new JSONObject();
+        EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
+        Query q = em.createNamedQuery("Meetings.findMeetinrRoomIdByEmployee");
+        q.setParameter("employeeId", employeeId);
+        List results = q.getResultList();
+        em.getTransaction().commit();
+        em.clear();
+        em.close();        
+        return JSONManager.getJSONObjectByList(results, "meetingRooms").toJSONString();
+    }   
 }

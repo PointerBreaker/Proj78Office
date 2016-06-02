@@ -39,6 +39,7 @@ import org.json.simple.JSONObject;
     @NamedQuery(name = "Meetings.findByCompanyId", query = "SELECT m FROM Meetings m WHERE m.companyId = :companyId"),
     @NamedQuery(name = "Meetings.findByEmployeeId", query = "SELECT m FROM Meetings m WHERE m.employeeId = :employeeId"),
     @NamedQuery(name = "Meetings.findByTime", query = "SELECT m FROM Meetings m WHERE m.time = :time"),
+    @NamedQuery(name = "Meetings.findMeetinrRoomIdByEmployee", query = "SELECT m.meetingRoomId FROM Meetings WHERE m.emloyeeId = :employeeId"),
     @NamedQuery(name = "Meetings.findByMeetingCode", query = "SELECT m FROM Meetings m WHERE m.meetingCode = :meetingCode")})
 public class Meetings implements Serializable {
     private static final long serialVersionUID = 1L;
