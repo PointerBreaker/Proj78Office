@@ -33,7 +33,7 @@ public class JSONManager {
                     jsonArray.add((JSONObject) parser.parse(object.toString()));                    
                 }
                 json.put(arrayName, jsonArray);     
-                
+     
                 return getSuccesMessageJSON(json);
             } catch (ParseException ex) {
                 

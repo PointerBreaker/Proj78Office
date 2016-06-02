@@ -97,9 +97,11 @@ public class EmployeesService {
         Query q = em.createNamedQuery("Employees.findByPasswordAndName");
         q.setParameter("name", name);
         q.setParameter("password", password);
-        if(q.getResultList().isEmpty()){
+        List results = q.getResultList();
+        if(results.isEmpty()){
             json.put("succes", "false");
         }else{
+            json = JSONManager.getJSONObjectByList(results, "employees");
             json.put("succes", "true");
         }
         em.getTransaction().commit();

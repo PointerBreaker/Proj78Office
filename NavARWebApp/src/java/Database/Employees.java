@@ -113,8 +113,6 @@ public class Employees implements Serializable {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("employee_id", employeeId);
         jsonObject.put("name", name);
-        jsonObject.put("password", password);
-        jsonObject.put("salt", salt);
         return jsonObject.toJSONString();        
     }
     
