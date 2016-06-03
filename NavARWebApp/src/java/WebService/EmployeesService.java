@@ -99,7 +99,7 @@ public class EmployeesService {
         q.setParameter("password", password);
         List results = q.getResultList();
         if(results.isEmpty()){
-            json.put("succes", "false");
+            json.put("success", "false");
         }else{
             json = JSONManager.getJSONObjectByList(results, "employees");
         }
