@@ -52,8 +52,8 @@ public class EmailSenderClass {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
             message.setSubject("Your client has arrived!");
-            message.setContent("<h1>Hello " + employee.getName() +",a client from "+ company.getName() + "has arrived for your at " + dateFormat.format(date) + ". <br>"
-                    + "Your meeting will start at " + meeting.getTime() + " in " + meetingRoom.getName() + "."
+            message.setContent("<h1>Hello " + employee.getName() +", a client from "+ company.getName() + " has arrived at " + dateFormat.format(date) + ". <br>"
+                    + "Your meeting will start at " + meeting.getDateString() + " in " + meetingRoom.getName() + "."
                     + "</h1>", "text/html");
 
             Transport transport = mailSession.getTransport("smtp");
