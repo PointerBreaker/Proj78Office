@@ -36,7 +36,6 @@ public class CustomerCheckInService {
         Query q = em.createNamedQuery("Meetings.findByMeetingCode");
         q.setParameter("meetingCode", meetingCode);
         JSONObject meetings = JSONManager.getJSONObjectByList(q.getResultList(), "meetings");
-    
         if(meetings.get("success").equals("true")){
             JSONArray meetingsArray = (JSONArray) meetings.get("meetings");
             for(int i = 0; i < meetingsArray.size(); i++){
@@ -45,27 +44,36 @@ public class CustomerCheckInService {
                 int companyId = ((Long) meeting.get("company_id")).intValue();
                 int meetingRoomId = ((Long) meeting.get("meeting_room_id")).intValue();
                 Meetings meetingObject = Meetings.createNewMeetingByJSONObject(meeting);
-                Employees employee = getEmployeeById(employeeId, em);
-                Companies company = getCompanyById(companyId, em);
-                MeetingRooms meetingRoom = getMeetingRoomById(meetingRoomId, em);               
+                Employees employee = getEmployeeById(employeeId);
+                Companies company = getCompanyById(companyId);
+                MeetingRooms meetingRoom = getMeetingRoomById(meetingRoomId);               
                 
                 if(employee != null && company != null && meetingObject != null && meetingRoom != null){
                     EmailSenderClass e = new EmailSenderClass();
                     e.sendEmail(employee, company, meetingObject, meetingRoom);
-                }                               
+                    System.out.println("Send!!!!!!");
+                }else{
+                    System.out.println("Not send!!!!!!!!!");
+                    System.out.println("e: " + employee + " c: "+ company + " mo: " + meetingObject + " mR:" + meetingRoom );
+                }
+                
             }         
         }
             em.getTransaction().commit();
-            em.flush();
+            em.clear();
             em.close();    
         
         return "Hello QR-scanner!";    
     }
     
-    private Employees getEmployeeById(int employeeId, EntityManager em){
+    private Employees getEmployeeById(int employeeId){
+        
+        EntityManager em = DatabaseManager.getNewEntityManager();
         Query q2 = em.createNamedQuery("Employees.findByEmployeeId");
         q2.setParameter("employeeId", employeeId);
         JSONObject employees = JSONManager.getJSONObjectByList(q2.getResultList(), "employees");
+        em.clear();
+        em.close();
         
         if(employees.get("success").equals("false")){
             return null;
@@ -74,11 +82,15 @@ public class CustomerCheckInService {
         return Employees.createEmployeeByJson((JSONObject) ((JSONArray)employees.get("employees")).get(0));        
     }
             
-    private Companies getCompanyById(int companyId, EntityManager em){        
+    private Companies getCompanyById(int companyId){ 
+        
+        EntityManager em = DatabaseManager.getNewEntityManager();
         Query q2 = em.createNamedQuery("Companies.findByCompanyId");
         q2.setParameter("companyId", companyId);
         List results = q2.getResultList();
         JSONObject companies = JSONManager.getJSONObjectByList(results, "companies");
+        em.clear();
+        em.close();
         
         if(companies.get("success").equals("false")){
             return null;
@@ -87,11 +99,13 @@ public class CustomerCheckInService {
         return Companies.createNewCompanyByJSON((JSONObject) ((JSONArray)companies.get("companies")).get(0));        
     }
     
-    private MeetingRooms getMeetingRoomById(int meetingRoomId, EntityManager em){
+    private MeetingRooms getMeetingRoomById(int meetingRoomId){
+        EntityManager em = DatabaseManager.getNewEntityManager();
         Query q2 = em.createNamedQuery("MeetingRooms.findByMeetingRoomId");
         q2.setParameter("meetingRoomId", meetingRoomId);
         JSONObject meetingRooms = JSONManager.getJSONObjectByList(q2.getResultList(), "meetingRooms");
-        
+        em.clear();
+        em.close();
         if(meetingRooms.get("success").equals("false")){
             return null;
         }
