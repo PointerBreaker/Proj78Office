@@ -110,4 +110,21 @@ public class MeetingRooms implements Serializable {
         return json.toJSONString();
     }
     
+    
+    public static MeetingRooms createMeetingRoomByJSON(JSONObject jsonObject){
+        if(!jsonObject.containsKey("meeting_room_id") ||
+           !jsonObject.containsKey("name") ||
+           !jsonObject.containsKey("ar_marker_id")){            
+            return null;        
+        }
+        
+        MeetingRooms newMeetingRoom = new MeetingRooms();
+        newMeetingRoom.setMeetingRoomId((int) jsonObject.get("meeting_room_id"));
+        newMeetingRoom.setMeetingRoomId((Integer) jsonObject.get("name"));
+        newMeetingRoom.setArMarkerId((int) jsonObject.get("ar_marker_id"));        
+        return newMeetingRoom;
+    
+    }
+    
+    
 }

@@ -48,7 +48,7 @@ public class CompanyService {
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Companies.findByCompanyId");
-        q.setParameter("companyId", companyId);
+        q.setParameter("companyId", companyId);                       
         List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();

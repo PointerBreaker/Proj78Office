@@ -56,7 +56,7 @@ public class Meetings implements Serializable {
     private Integer employeeId;
     @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private java.util.Date time;
     @Size(max = 45)
     @Column(name = "meeting_code")
     private String meetingCode;
@@ -103,6 +103,11 @@ public class Meetings implements Serializable {
     public Date getTime() {
         return time;
     }
+    
+    public String getDateString(){
+            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+            return format.format(time);                  
+    }
 
     public void setTime(Date time) {
         this.time = time;
@@ -144,9 +149,8 @@ public class Meetings implements Serializable {
         json.put("meeting_room_id", meetingRoomId);
         json.put("company_id", companyId);
         json.put("employee_id", employeeId);
-        json.put("time", time.toString());
-        json.put("meeting_code", meetingCode);
-    
+        json.put("time", getDateString());
+        json.put("meeting_code", meetingCode);    
         return json.toJSONString();
     }
     
@@ -164,15 +168,14 @@ public class Meetings implements Serializable {
         }
                
         Meetings newMeeting = new Meetings();
-        newMeeting.setMeetingId((Integer) jsonObject.get("meeting_id"));
-        newMeeting.setCompanyId((Integer) jsonObject.get("company_id"));
-        newMeeting.setEmployeeId((Integer) jsonObject.get("employee_id"));
+        newMeeting.setMeetingId(((Long) jsonObject.get("meeting_id")).intValue());
+        newMeeting.setCompanyId(((Long) jsonObject.get("company_id")).intValue());
+        newMeeting.setEmployeeId(((Long) jsonObject.get("employee_id")).intValue());
         newMeeting.setMeetingCode((String) jsonObject.get("meeting_code"));
-        newMeeting.setMeetingRoomId((Integer) jsonObject.get("meeting_room_id"));
-        
+        newMeeting.setMeetingRoomId(((Long) jsonObject.get("meeting_room_id")).intValue());        
         Date newTime = null;
         try{
-            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
             newTime = format.parse((String) jsonObject.get("time"));
         } catch (ParseException ex) {
             Logger.getLogger(Meetings.class.getName()).log(Level.SEVERE, null, ex);

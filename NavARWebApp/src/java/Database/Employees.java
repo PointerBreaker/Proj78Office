@@ -48,6 +48,17 @@ public class Employees implements Serializable {
     @Size(max = 45)
     @Column(name = "salt")
     private String salt;
+    @Size(max = 45)
+    @Column(name = "email_address")
+    private String emailAddress;
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
     public Employees() {
     }
@@ -113,6 +124,7 @@ public class Employees implements Serializable {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("employee_id", employeeId);
         jsonObject.put("name", name);
+        jsonObject.put("email_address", emailAddress);
         return jsonObject.toJSONString();        
     }
     
@@ -120,7 +132,8 @@ public class Employees implements Serializable {
         if(!jsonObject.containsKey("employee_id") 
                 || !jsonObject.containsKey("name")
                 || !jsonObject.containsKey("password")
-                || !jsonObject.containsKey("salt")){
+                || !jsonObject.containsKey("salt")
+                || !jsonObject.containsKey("email_address")){    
         return null;
         }
         
@@ -129,6 +142,7 @@ public class Employees implements Serializable {
         newEmployee.setName((String) jsonObject.get("name"));
         newEmployee.setPassword((String) jsonObject.get("password"));
         newEmployee.setSalt((String) jsonObject.get("salt"));        
+        newEmployee.emailAddress = (String) jsonObject.get("email_address");
         return newEmployee;
     }
     

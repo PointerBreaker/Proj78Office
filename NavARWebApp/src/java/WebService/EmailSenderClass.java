@@ -5,6 +5,10 @@
  */
 package WebService;
 
+import Database.Companies;
+import Database.Employees;
+import Database.MeetingRooms;
+import Database.Meetings;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,10 +33,8 @@ public class EmailSenderClass {
     private final String applicationEmailAddress = "navar.tamtam@gmail.com";
     private final String applicationEmailPassword = "TamTamTam";
     private final String applicationEmailHost = "smtp.gmail.com";
-//    @Resource(name = "mail/TamTamMeetingEmailService")
-//    private Session mailSession;
     
-    public void sendEmail(String recipientEmailAddress){     
+    public void sendEmail(Employees employee, Companies company, Meetings meeting, MeetingRooms meetingRoom){     
         try{
             Properties props = System.getProperties();
             props.put("mail.smtp.starttls.enable", "true");
@@ -46,11 +48,13 @@ public class EmailSenderClass {
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(applicationEmailAddress));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmailAddress));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(employee.getEmailAddress()));
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
             message.setSubject("Your client has arrived!");
-            message.setContent("<h1>A client has arrived for your at " + dateFormat.format(date) + ".</h1>", "text/html");
+            message.setContent("<h1>Hello " + employee.getName() +",a client from "+ company.getName() + "has arrived for your at " + dateFormat.format(date) + ". <br>"
+                    + "Your meeting will start at " + meeting.getTime() + " in " + meetingRoom.getName() + "."
+                    + "</h1>", "text/html");
 
             Transport transport = mailSession.getTransport("smtp");
             transport.connect(applicationEmailHost, applicationEmailAddress, applicationEmailPassword);
