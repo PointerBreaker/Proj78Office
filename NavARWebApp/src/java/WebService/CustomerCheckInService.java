@@ -16,13 +16,12 @@ import javax.ws.rs.QueryParam;
  */
 @Path("CustomerCheckInService")
 public class CustomerCheckInService {
-    
     //TODO do somthing with the scanned meetingID?
     @GET
     @Path("putScannedMeetingCode")
     public String putScannedMeetingId(@QueryParam("meetingCode") String meetingCode){
         EmailSenderClass e = new EmailSenderClass();
-        e.sendEmail("mizzcoollizz@gmail.com");
+        e.sendEmail("rme.schattenberg@gmail.com");
         return "Hello QR-scanner!";    
     }
             
