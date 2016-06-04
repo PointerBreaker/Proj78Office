@@ -99,7 +99,7 @@ public class Companies implements Serializable {
         }
         
         Companies newCompany = new Companies();
-        newCompany.setCompanyId((Integer) jsonObject.get("company_id"));
+        newCompany.setCompanyId(((Long) jsonObject.get("company_id")).intValue());
         newCompany.setName((String) jsonObject.get("name"));
         return newCompany;    
   

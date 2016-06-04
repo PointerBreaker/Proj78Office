@@ -54,12 +54,10 @@ public class CustomerCheckInService {
                     e.sendEmail(employee, company, meetingObject, meetingRoom);
                 }                               
             }         
-            
         }
-        
-        em.getTransaction().commit();
-        em.flush();
-        em.close();
+            em.getTransaction().commit();
+            em.flush();
+            em.close();    
         
         return "Hello QR-scanner!";    
     }
