@@ -119,9 +119,9 @@ public class MeetingRooms implements Serializable {
         }
         
         MeetingRooms newMeetingRoom = new MeetingRooms();
-        newMeetingRoom.setMeetingRoomId((int) jsonObject.get("meeting_room_id"));
-        newMeetingRoom.setMeetingRoomId((Integer) jsonObject.get("name"));
-        newMeetingRoom.setArMarkerId((int) jsonObject.get("ar_marker_id"));        
+        newMeetingRoom.setMeetingRoomId(((Long) jsonObject.get("meeting_room_id")).intValue());
+        newMeetingRoom.setName((String) jsonObject.get("name"));
+        newMeetingRoom.setArMarkerId(((Long)jsonObject.get("ar_marker_id")).intValue());        
         return newMeetingRoom;
     
     }
