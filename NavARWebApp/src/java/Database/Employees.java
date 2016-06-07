@@ -129,20 +129,24 @@ public class Employees implements Serializable {
     }
     
     public static Employees createEmployeeByJson(JSONObject jsonObject){
-        if(!jsonObject.containsKey("employee_id") 
-                || !jsonObject.containsKey("name")
-                || !jsonObject.containsKey("password")
-                || !jsonObject.containsKey("salt")
-                || !jsonObject.containsKey("email_address")){    
+        if(!jsonObject.containsKey("employee_id")){    
         return null;
         }
         
         Employees newEmployee = new Employees();
-        newEmployee.setEmployeeId((Integer) jsonObject.get("employee_id"));
-        newEmployee.setName((String) jsonObject.get("name"));
-        newEmployee.setPassword((String) jsonObject.get("password"));
-        newEmployee.setSalt((String) jsonObject.get("salt"));        
-        newEmployee.emailAddress = (String) jsonObject.get("email_address");
+        newEmployee.setEmployeeId(((Long) jsonObject.get("employee_id")).intValue());
+        if(jsonObject.containsKey("name")){            
+            newEmployee.setName((String) jsonObject.get("name"));
+        }
+        if(jsonObject.containsKey("password")){
+            newEmployee.setPassword((String) jsonObject.get("password"));
+        }
+        if(jsonObject.containsKey("salt")){
+           newEmployee.setSalt((String) jsonObject.get("salt"));   
+        }
+        if(jsonObject.containsKey("email_address")){
+            newEmployee.emailAddress = (String) jsonObject.get("email_address");
+        }        
         return newEmployee;
     }
     

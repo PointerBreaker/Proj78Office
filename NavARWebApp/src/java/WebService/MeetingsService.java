@@ -42,7 +42,7 @@ public class MeetingsService {
         List results = q.getResultList();
         em.getTransaction().commit();
         em.clear();
-        em.close();
+        em.close();        
         return JSONManager.getJSONObjectByList(results, "meetings").toJSONString();
     }  
     
@@ -50,8 +50,7 @@ public class MeetingsService {
     @GET
     @Path("getMeetingByCode")
     @Produces("application/json")
-    public String getMeetingByMeetingCode(@QueryParam("meetingCode") String meetingCode){
-        JSONObject json = new JSONObject();        
+    public String getMeetingByMeetingCode(@QueryParam("meetingCode") String meetingCode){            
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Meetings.findByMeetingCode");
@@ -60,7 +59,9 @@ public class MeetingsService {
         em.getTransaction().commit();
         em.clear();
         em.close();
-        return JSONManager.getJSONObjectByList(results, "meetings").toJSONString();
+        JSONObject json = JSONManager.getJSONObjectByList(results, "meetings");
+        json.put("company_details", DatabaseManager.getCompanyById((int) json.get("company_id")));      
+        return json.toJSONString();
         
     }
     

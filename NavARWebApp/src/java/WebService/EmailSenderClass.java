@@ -49,12 +49,12 @@ public class EmailSenderClass {
             MimeMessage message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(applicationEmailAddress));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(employee.getEmailAddress()));
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = new Date();   
             message.setSubject("Your client has arrived!");
-            message.setContent("<h1>Hello " + employee.getName() +", a client from "+ company.getName() + " has arrived at " + dateFormat.format(date) + ". <br>"
-                    + "Your meeting will start at " + meeting.getDateString() + " in " + meetingRoom.getName() + "."
-                    + "</h1>", "text/html");
+            message.setContent("<h1>Hello " + employee.getName() +"! </h1> <p>A client from "+ company.getName() + " has arrived at " + dateFormat.format(date) + ". <br>"
+                    + "Your meeting will start at " + dateFormat.format(meeting.getTime()) + " in " + meetingRoom.getName() + "."
+                    + "</p>", "text/html");
 
             Transport transport = mailSession.getTransport("smtp");
             transport.connect(applicationEmailHost, applicationEmailAddress, applicationEmailPassword);

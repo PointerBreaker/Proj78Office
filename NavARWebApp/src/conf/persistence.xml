@@ -14,6 +14,8 @@
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://145.24.222.124:8000/project78?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="henk"/>
       <property name="javax.persistence.jdbc.password" value="kneh"/>
+<!--      <property name="javax.persistence.jdbc.user" value="Elize"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>-->
     </properties>
   </persistence-unit>
 </persistence>

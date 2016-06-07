@@ -120,6 +120,8 @@ public class EmployeesService {
         em.getTransaction().commit();
         em.clear();
         em.close();        
-        return JSONManager.getJSONObjectByList(results, "meetingRooms").toJSONString();
+        JSONObject json = JSONManager.getJSONObjectByList(results, "meetingRooms");
+        json.put("company_details", DatabaseManager.getCompanyById((int) json.get("company_id")));      
+        return json.toJSONString();
     }
 }
