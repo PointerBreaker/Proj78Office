@@ -51,12 +51,13 @@ public class DatabaseManager {
     
     public static Employees getEmployeeById(int employeeId){        
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q2 = em.createNamedQuery("Employees.findByEmployeeId");
         q2.setParameter("employeeId", employeeId);
         JSONObject employees = JSONManager.getJSONObjectByList(q2.getResultList(), "employees");
+        em.getTransaction().commit();
         em.clear();
         em.close();        
-        
         if(employees.get("success").equals("false")){
             return null;
         }
@@ -66,10 +67,12 @@ public class DatabaseManager {
     public static Companies getCompanyById(int companyId){ 
         
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q2 = em.createNamedQuery("Companies.findByCompanyId");
         q2.setParameter("companyId", companyId);
         List results = q2.getResultList();
         JSONObject companies = JSONManager.getJSONObjectByList(results, "companies");
+        em.getTransaction().commit();
         em.clear();
         em.close();
             
@@ -82,9 +85,11 @@ public class DatabaseManager {
     
     public static MeetingRooms getMeetingRoomById(int meetingRoomId){
         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
         Query q2 = em.createNamedQuery("MeetingRooms.findByMeetingRoomId");
         q2.setParameter("meetingRoomId", meetingRoomId);
         JSONObject meetingRooms = JSONManager.getJSONObjectByList(q2.getResultList(), "meetingRooms");
+        em.getTransaction().commit();
         em.clear();
         em.close();
         

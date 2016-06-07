@@ -18,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -110,7 +111,7 @@ public class EmployeesService {
     }   
     
     @GET
-    @Path("getMeetingroomIdsByEmployeeId")
+    @Path("getMeetingsByEmployeeId")
     public String getMeetingroomIdsByEmployeeId(@QueryParam("employeeId") int employeeId){        
         EntityManager em = DatabaseManager.getNewEntityManager();
         em.getTransaction().begin();
@@ -120,17 +121,9 @@ public class EmployeesService {
         em.getTransaction().commit();
         em.clear();
         em.close();        
+        
+        //TODO change this
         JSONObject json = JSONManager.getJSONObjectByList(results, "meetingRooms");
-        Companies c = DatabaseManager.getCompanyById((int) json.get("company_id"));
-            if(c != null){
-                try{
-                    JSONParser jsonParser = new JSONParser();
-                    JSONObject companyJSON = (JSONObject) jsonParser.parse(c.toString());
-                    json.put("company_details", companyJSON);      
-                } catch (ParseException ex) {
-                    Logger.getLogger(MeetingsService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }    
         return json.toJSONString();
     }
 }

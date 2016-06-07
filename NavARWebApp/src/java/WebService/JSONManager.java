@@ -5,6 +5,9 @@
  */
 package WebService;
 
+import Database.Companies;
+import Database.DatabaseManager;
+import Database.Meetings;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +32,13 @@ public class JSONManager {
                 JSONArray jsonArray = new JSONArray();        
                 for(Object object: list){
                     JSONParser parser = new JSONParser();
-                    jsonArray.add((JSONObject) parser.parse(object.toString()));                    
+                    JSONObject listItemJson = (JSONObject) parser.parse(object.toString());
+                    if(Meetings.class.isInstance(object)){
+                            Companies c = DatabaseManager.getCompanyById(( (Long) listItemJson.get("company_id")).intValue());
+                            listItemJson.put("company_details", parser.parse(c.toString()));
+                    }
+                    
+                    jsonArray.add(listItemJson);                    
                 }
                 json.put(arrayName, jsonArray);     
      

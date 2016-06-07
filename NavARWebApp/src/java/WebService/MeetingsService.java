@@ -64,19 +64,6 @@ public class MeetingsService {
         em.clear();
         em.close();
         JSONObject json = JSONManager.getJSONObjectByList(results, "meetings");
-
-        
-        Companies c = DatabaseManager.getCompanyById((int) json.get("company_id"));
-        if(c != null){
-            try{
-                JSONParser jsonParser = new JSONParser();
-                JSONObject companyJSON = (JSONObject) jsonParser.parse(c.toString());
-                json.put("company_details", companyJSON);      
-            } catch (ParseException ex) {
-                Logger.getLogger(MeetingsService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
         return json.toJSONString();        
     }
     
