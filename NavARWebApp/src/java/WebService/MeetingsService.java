@@ -6,11 +6,15 @@
 package WebService;
 
 
+import Database.Companies;
 import Database.DatabaseManager;
 import WebService.JSONManager;
 import static Database.DatabaseManager.getNewEntityManager;
+import Database.Employees;
 import Database.Meetings;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
@@ -60,9 +64,20 @@ public class MeetingsService {
         em.clear();
         em.close();
         JSONObject json = JSONManager.getJSONObjectByList(results, "meetings");
-        json.put("company_details", DatabaseManager.getCompanyById((int) json.get("company_id")));      
-        return json.toJSONString();
+
         
+        Companies c = DatabaseManager.getCompanyById((int) json.get("company_id"));
+        if(c != null){
+            try{
+                JSONParser jsonParser = new JSONParser();
+                JSONObject companyJSON = (JSONObject) jsonParser.parse(c.toString());
+                json.put("company_details", companyJSON);      
+            } catch (ParseException ex) {
+                Logger.getLogger(MeetingsService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return json.toJSONString();        
     }
     
     //TODO test this
