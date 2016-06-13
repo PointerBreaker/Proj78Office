@@ -71,7 +71,7 @@ public class MeetingsService {
     @PUT
     @Consumes("application/json")
     @Path("putMeeting")
-    public String putMeeting(String meeting){
+    public String putMeeting(@QueryParam("jsonMeeting") String meeting){
         JSONParser parser = new JSONParser();
         JSONObject json;
             try {
