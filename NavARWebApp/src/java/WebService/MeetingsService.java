@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -70,7 +71,7 @@ public class MeetingsService {
     //TODO test this
     @PUT
     @Path("putMeeting")
-    public String putMeeting(@QueryParam("jsonMeeting") String meeting){
+    public String putMeeting(@FormParam("jsonMeeting") String meeting){
         JSONParser parser = new JSONParser();
         JSONObject json;
             try {
