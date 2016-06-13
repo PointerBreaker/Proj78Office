@@ -88,9 +88,9 @@ public class MeetingsService {
             em.getTransaction().commit();
             em.clear();
             em.close();
-            return (json.put("succes", "true")).toString();
+            return (json.put("success", "true")).toString();
         }else{
-            return (json.put("succes", "false")).toString();
+            return (json.put("success", "false")).toString();
         }
         
     }    

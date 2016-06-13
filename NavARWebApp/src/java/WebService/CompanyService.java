@@ -81,9 +81,9 @@ public class CompanyService {
             em.getTransaction().commit();
             em.clear();
             em.close();
-            return (returnJsonObject.put("succes", "true")).toString();
+            return (returnJsonObject.put("success", "true")).toString();
         }else{
-            return (returnJsonObject.put("succes", "false")).toString();
+            return (returnJsonObject.put("success", "false")).toString();
         }        
     }
     
