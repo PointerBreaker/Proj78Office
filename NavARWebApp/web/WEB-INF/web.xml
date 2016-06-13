@@ -10,7 +10,7 @@
         <web-resource-collection>
             <web-resource-name>allHTTP methods</web-resource-name>
             <description/>
-            <url-pattern>NavARWebApp/NavARWebService</url-pattern>
+            <url-pattern>/NavARWebApp/NavARWebService/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
 </web-app>
