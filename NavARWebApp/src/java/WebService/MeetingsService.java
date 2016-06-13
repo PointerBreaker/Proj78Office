@@ -70,6 +70,7 @@ public class MeetingsService {
     
     //TODO test this
     @PUT
+    @Consumes("application/json")
     @Path("putMeeting")
     public String putMeeting(@FormParam("jsonMeeting") String meeting){
         JSONParser parser = new JSONParser();
