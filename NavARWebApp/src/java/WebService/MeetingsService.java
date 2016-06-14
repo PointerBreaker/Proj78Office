@@ -69,10 +69,11 @@ public class MeetingsService {
     }
     
     //TODO test this
-    @PUT
-    @Consumes("application/json")
+    //Put doesnt work :/
+    @GET
+    //@Consumes("application/json")
     @Path("putMeeting")
-    public String putMeeting(@FormParam("jsonMeeting") String meeting){
+    public String putMeeting(@QueryParam("jsonMeeting") String meeting){
         JSONParser parser = new JSONParser();
         JSONObject json;
             try {
