@@ -129,7 +129,11 @@ public class Employees implements Serializable {
     }
     
     public static Employees createEmployeeByJson(JSONObject jsonObject){
-        if(!jsonObject.containsKey("employee_id")){    
+        if(!jsonObject.containsKey("name")
+           && !jsonObject.containsKey("password")
+           && !jsonObject.containsKey("salt")
+           && !jsonObject.containsKey("email_address")                
+                ){    
         return null;
         }
         

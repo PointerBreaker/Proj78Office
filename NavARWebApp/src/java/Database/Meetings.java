@@ -64,6 +64,15 @@ public class Meetings implements Serializable {
     public Meetings() {
     }
 
+    public Meetings(Integer meetingRoomId, Integer companyId, Integer employeeId, Date time, String meetingCode) {
+        this.meetingId = meetingId;
+        this.meetingRoomId = meetingRoomId;
+        this.companyId = companyId;
+        this.employeeId = employeeId;
+        this.time = time;
+        this.meetingCode = meetingCode;
+    }
+
     public Meetings(Integer meetingId) {
         this.meetingId = meetingId;
     }
@@ -105,8 +114,11 @@ public class Meetings implements Serializable {
     }
     
     public String getDateString(){
+        if(time != null){
             SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-            return format.format(time);                  
+            return format.format(time);     
+        }             
+        return null;
     }
 
     public void setTime(Date time) {
@@ -143,7 +155,6 @@ public class Meetings implements Serializable {
 
     @Override
     public String toString() {
-
         JSONObject json = new JSONObject();
         json.put("meeting_id", meetingId);
         json.put("meeting_room_id", meetingRoomId);
@@ -154,21 +165,23 @@ public class Meetings implements Serializable {
         return json.toJSONString();
     }
     
+    public String getJPAString(){
+    return "Database.Meetings[ meetingId=" + meetingId + " ]";
+    }
+    
+    
     public static Meetings createNewMeetingByJSONObject(JSONObject jsonObject){
     
-        if(!jsonObject.containsKey("meeting_id")
-                || !jsonObject.containsKey("meeting_room_id")
-                || !jsonObject.containsKey("company_id")
-                || !jsonObject.containsKey("employee_id")
-                || !jsonObject.containsKey("meeting_id")
-                || !jsonObject.containsKey("time")
-                || !jsonObject.containsKey("meeting_code")                
+        if( !jsonObject.containsKey("meeting_room_id")
+            || !jsonObject.containsKey("company_id")
+            || !jsonObject.containsKey("employee_id")
+            || !jsonObject.containsKey("time")
+            || !jsonObject.containsKey("meeting_code")                
                 ){
             return null;
         }
                
         Meetings newMeeting = new Meetings();
-        newMeeting.setMeetingId(((Long) jsonObject.get("meeting_id")).intValue());
         newMeeting.setCompanyId(((Long) jsonObject.get("company_id")).intValue());
         newMeeting.setEmployeeId(((Long) jsonObject.get("employee_id")).intValue());
         newMeeting.setMeetingCode((String) jsonObject.get("meeting_code"));

@@ -12,6 +12,11 @@ import WebService.JSONManager;
 import static Database.DatabaseManager.getNewEntityManager;
 import Database.Employees;
 import Database.Meetings;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +29,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -70,30 +76,67 @@ public class MeetingsService {
     
     //TODO test this
     //Put doesnt work :/
+    //TODO werkt niet
     @GET
-    //@Consumes("application/json")
     @Path("putMeeting")
-    public String putMeeting(@QueryParam("jsonMeeting") String meeting){
-        JSONParser parser = new JSONParser();
-        JSONObject json;
-            try {
-                json = (JSONObject) parser.parse(meeting);
-            } catch (ParseException ex) {
-                return (new JSONObject().put("message", "Not a JSON object!").toString());
-            }
-        Meetings newMeeting = Meetings.createNewMeetingByJSONObject(json);
+    public String putMeeting(@QueryParam("meetingRoomId") int meeting_room_id,
+                            @QueryParam("companyId") int company_id,
+                            @QueryParam("employeeId") int employee_id,
+                            @QueryParam("time") String time,
+                            @QueryParam("meetingCode") String meeting_code  
+                            ){        
+            JSONObject json = new JSONObject();      
+        if(meeting_room_id == 0 && company_id == 0 && 
+                employee_id == 0 && time == null && meeting_code == null ){
+            JSONManager.getErrorMessageJSON(json);
+            json.put("reason", "No parameters for input!");
+            return json.toJSONString();
+        }
+        Meetings newMeeting = new Meetings();
+       
+        if(meeting_room_id != 0){
+            newMeeting.setMeetingRoomId(meeting_room_id);
+        }
+        if(company_id != 0){
+            newMeeting.setCompanyId(company_id);
+        }
+        if(employee_id != 0){
+            newMeeting.setEmployeeId(employee_id);
+        }
+        if(time != null && !time.equals("")){
+            try{            
+            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
+            newMeeting.setTime(format.parse(time));
+            }catch (java.text.ParseException ex) {
+                ex.printStackTrace();
+                JSONManager.getErrorMessageJSON(json);    
+                json.put("reason", "Not the right time format: " + time);
+                return json.toJSONString();
+            }  
+        }
+        
+        
+        if(meeting_code != null){
+            meeting_code = meeting_code.replace("_", " ");
+            newMeeting.setMeetingCode(meeting_code);        
+        }
         
         if(newMeeting != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
-            em.getTransaction().begin();
+            em.getTransaction().begin();          
+            //TODO maybe first check for existing rows
             em.persist(newMeeting);     
             em.getTransaction().commit();
             em.clear();
-            em.close();
-            return (json.put("success", "true")).toString();
+            em.close();   
+            JSONObject jsonReturn = new JSONObject();
+            System.out.println("persisted");
+            jsonReturn.put("success", "true");
+            return jsonReturn.toJSONString();
         }else{
-            return (json.put("success", "false")).toString();
+            JSONObject jsonReturn = new JSONObject();
+            jsonReturn.put("success", "false");
+            return jsonReturn.toJSONString();
         }
-        
     }    
 }

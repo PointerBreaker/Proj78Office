@@ -52,13 +52,13 @@ public class JSONManager {
         
     }
     
-    private static JSONObject getErrorMessageJSON(JSONObject json){        
+    public static JSONObject getErrorMessageJSON(JSONObject json){        
         json.put("success", "false");
         return json;
     }
     
       
-    private static JSONObject getSuccesMessageJSON(JSONObject json){
+    public static JSONObject getSuccesMessageJSON(JSONObject json){
         json.put("success", "true");
         return json;
     }

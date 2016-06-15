@@ -60,10 +60,9 @@ public class EmployeesService {
     }
     
     //TODO test this
-    @PUT
-    @Consumes("application/json")
-    @Path("putEmployee")
-    public String putEmployee(String employeeJSONString){
+    @GET    
+    @Path("putEmployeeByJSON")
+    public String putEmployeeByJSON(@QueryParam("jsonEmployee")String employeeJSONString){
         JSONObject returnJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
         try{
@@ -71,7 +70,8 @@ public class EmployeesService {
             jsonObject = (JSONObject) jsonParser.parse(employeeJSONString);            
         } catch (ParseException ex) {            
             Logger.getLogger(CompanyService.class.getName()).log(Level.SEVERE, null, ex);
-            return (returnJsonObject.put("succes", "false")).toString();
+            returnJsonObject.put("succes", "false");
+            return returnJsonObject.toJSONString();
         }
         
         Employees employee = Employees.createEmployeeByJson(jsonObject);
@@ -82,10 +82,42 @@ public class EmployeesService {
             em.persist(employee);
             em.getTransaction().commit();
             em.clear();
-            em.close();
-            return (returnJsonObject.put("success", "true")).toString();
+            em.close();            
+            returnJsonObject.put("success", "true");
+            return returnJsonObject.toJSONString();
         }else{
-            return (returnJsonObject.put("success", "false")).toString();
+            returnJsonObject.put("success", "false");
+            return returnJsonObject.toJSONString();
+        }        
+    }
+    
+    //TODO werkt niet
+    @GET    
+    @Path("putEmployee")
+    public String putEmployee(@QueryParam("name")String name,
+                              @QueryParam("emailAddress") String emailAddress, 
+                              @QueryParam("password") String password,
+                              @QueryParam("salt") String salt){
+        
+        JSONObject returnJsonObject = new JSONObject();        
+        Employees employee = new Employees();
+        employee.setName(name);
+        employee.setEmailAddress(emailAddress);
+        employee.setPassword(password);
+        employee.setSalt(salt);
+                             
+        if(employee != null){
+            EntityManager em = DatabaseManager.getNewEntityManager();
+            em.getTransaction().begin();
+            em.persist(employee);
+            em.getTransaction().commit();
+            em.clear();
+            em.close();            
+            returnJsonObject.put("success", "true");
+            return returnJsonObject.toJSONString();
+        }else{
+            returnJsonObject.put("success", "false");
+            return returnJsonObject.toJSONString();
         }        
     }
     

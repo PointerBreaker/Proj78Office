@@ -93,13 +93,11 @@ public class Companies implements Serializable {
     }
     
     public static Companies createNewCompanyByJSON(JSONObject jsonObject){
-        if(!jsonObject.containsKey("company_id") ||
-           !jsonObject.containsKey("name")){
+        if( !jsonObject.containsKey("name")){
             return null;
         }
         
         Companies newCompany = new Companies();
-        newCompany.setCompanyId(((Long) jsonObject.get("company_id")).intValue());
         newCompany.setName((String) jsonObject.get("name"));
         return newCompany;    
   

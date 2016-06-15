@@ -58,19 +58,21 @@ public class CompanyService {
     
     
     //TODO test this
-    @PUT
-    @Consumes("application/json")
-    @Path("putCompany")
-    public String putCompany(String companyJSONString){
+    
+    //TODO werkt niet
+    @GET
+    @Path("putCompanyByJSON")
+    public String putCompanyByJSON(@QueryParam("jsonCompany")String companyJSONString){
         JSONObject returnJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
         try{
             JSONParser jsonParser = new JSONParser();
             jsonObject = (JSONObject) jsonParser.parse(companyJSONString);
             
-        } catch (ParseException ex) {            
+        } catch (ParseException ex) {       
             Logger.getLogger(CompanyService.class.getName()).log(Level.SEVERE, null, ex);
-            return (returnJsonObject.put("succes", "false")).toString();
+            returnJsonObject.put("succes", "false");
+            return returnJsonObject.toJSONString();
         }
         
         Companies company = Companies.createNewCompanyByJSON(jsonObject);                         
@@ -81,9 +83,33 @@ public class CompanyService {
             em.getTransaction().commit();
             em.clear();
             em.close();
-            return (returnJsonObject.put("success", "true")).toString();
+            returnJsonObject.put("success", "true");
+            return returnJsonObject.toJSONString();
         }else{
-            return (returnJsonObject.put("success", "false")).toString();
+            returnJsonObject.put("success", "false");
+            return returnJsonObject.toJSONString();
+        }        
+    }
+    
+    @GET
+    @Path("putCompany")
+    public String putCompany(@QueryParam("name")String name){
+        
+        JSONObject returnJsonObject = new JSONObject();
+        Companies company = new Companies();
+        company.setName(name);
+        if(company != null){
+            EntityManager em = DatabaseManager.getNewEntityManager();
+            em.getTransaction().begin();
+            em.persist(company);   
+            em.getTransaction().commit();
+            em.clear();
+            em.close();
+            returnJsonObject.put("success", "true");
+            return returnJsonObject.toJSONString();
+        }else{
+            returnJsonObject.put("success", "false");
+            return returnJsonObject.toJSONString();
         }        
     }
     
