@@ -10,7 +10,6 @@
         - dist
         - execution
         - debugging
-        - javadoc
         - test compilation
         - test execution
         - test debugging
@@ -27,7 +26,6 @@
             </not>
         </condition>
     </fail>
-    <target depends="dist,javadoc" description="Build whole project." name="default"/>
     <!--
                 INITIALIZATION SECTION
             -->
@@ -66,9 +64,7 @@
                 <isset property="have.tests"/>
             </and>
         </condition>
-        <condition property="no.javadoc.preview">
-            <isfalse value="${javadoc.preview}"/>
-        </condition>
+       
         <property name="javac.compilerargs" value=""/>
         <condition property="no.deps">
             <and>
@@ -172,15 +168,7 @@
             </and>
         </condition>
         <property name="source.encoding" value="${file.encoding}"/>
-        <condition property="javadoc.encoding.used" value="${javadoc.encoding}">
-            <and>
-                <isset property="javadoc.encoding"/>
-                <not>
-                    <equals arg1="${javadoc.encoding}" arg2=""/>
-                </not>
-            </and>
-        </condition>
-        <property name="javadoc.encoding.used" value="${source.encoding}"/>
+       
         <property name="includes" value="**"/>
         <property name="excludes" value=""/>
         <property name="runmain.jvmargs" value=""/>
@@ -242,7 +230,6 @@
         <fail unless="build.generated.dir">Must set build.generated.dir</fail>
         <fail unless="dist.dir">Must set dist.dir</fail>
         <fail unless="build.classes.dir">Must set build.classes.dir</fail>
-        <fail unless="dist.javadoc.dir">Must set dist.javadoc.dir</fail>
         <fail unless="build.test.classes.dir">Must set build.test.classes.dir</fail>
         <fail unless="build.test.results.dir">Must set build.test.results.dir</fail>
         <fail unless="build.classes.excludes">Must set build.classes.excludes</fail>
@@ -1304,35 +1291,7 @@ exists or setup the property manually. For example like this:
     <target if="profiler.loadgen.path" name="-profile-start-loadgen">
         <loadgenstart path="${profiler.loadgen.path}"/>
     </target>
-    <!--
-                JAVADOC SECTION
-            -->
-    <target depends="init" if="have.sources" name="javadoc-build">
-        <mkdir dir="${dist.javadoc.dir}"/>
-        <javadoc additionalparam="${javadoc.additionalparam}" author="${javadoc.author}" charset="UTF-8" destdir="${dist.javadoc.dir}" docencoding="UTF-8" encoding="${javadoc.encoding.used}" failonerror="true" noindex="${javadoc.noindex}" nonavbar="${javadoc.nonavbar}" notree="${javadoc.notree}" private="${javadoc.private}" source="${javac.source}" splitindex="${javadoc.splitindex}" use="${javadoc.use}" useexternalfile="true" version="${javadoc.version}" windowtitle="${javadoc.windowtitle}">
-            <classpath>
-                <path path="${javac.classpath}:${j2ee.platform.classpath}"/>
-            </classpath>
-            <fileset dir="${src.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${build.generated.sources.dir}" erroronmissingdir="false">
-                <include name="**/*.java"/>
-            </fileset>
-        </javadoc>
-        <copy todir="${dist.javadoc.dir}">
-            <fileset dir="${src.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/doc-files/**"/>
-            </fileset>
-            <fileset dir="${build.generated.sources.dir}" erroronmissingdir="false">
-                <include name="**/doc-files/**"/>
-            </fileset>
-        </copy>
-    </target>
-    <target depends="init,javadoc-build" if="netbeans.home" name="javadoc-browse" unless="no.javadoc.preview">
-        <nbbrowse file="${dist.javadoc.dir}/index.html"/>
-    </target>
-    <target depends="init,javadoc-build,javadoc-browse" description="Build Javadoc." name="javadoc"/>
+  
     <!--
                 
                 TEST COMPILATION SECTION
