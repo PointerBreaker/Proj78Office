@@ -109,7 +109,7 @@ public class ARMarkerService {
         
         Map<Integer, Vertex> vMap = new HashMap<>();
         Map<String, String> idMap = new HashMap<>();
-        Map<String, String> dirMap = new HashMap<>();
+        Map<String, Map<String, String>> dirMap = new HashMap<>();
         
         for(ArMarkers marker : markers) {
             Vertex v = new Vertex(marker.getArMarkerId().toString());
@@ -125,7 +125,15 @@ public class ARMarkerService {
         for(ArMarkersNeighbors neighbor : neighbors) {
             graph.addEdge(vMap.get(neighbor.getArMarkerId()), vMap.get(neighbor.getArMarkerNeighbor()));
             
-            dirMap.put(((Integer)neighbor.getArMarkerId()).toString(), neighbor.getDirection());
+            String id = ((Integer)neighbor.getArMarkerId()).toString();
+            String neighborId = ((Integer)neighbor.getArMarkerNeighbor()).toString();
+            String direction = neighbor.getDirection();
+            
+            if(!dirMap.containsKey(id)) {
+                dirMap.put(id, new HashMap<>());
+            }
+            
+            dirMap.get(id).put(neighborId, direction);
         }
         
         String endId = null;
@@ -138,15 +146,25 @@ public class ARMarkerService {
         
         List<JSONArray> path = new ArrayList<>();
         
-        for(Vertex v : new Dijkstra(graph, startId).getPathTo(endId)) {
+        List<Vertex> vertexPath = new Dijkstra(graph, startId).getPathTo(endId);
+        
+        for (int i = 0; i < vertexPath.size(); i++) {
+            Vertex v1 = vertexPath.get(i);
+
             JSONArray arr = new JSONArray();
-            
-            arr.add(idMap.get(v.getLabel()));
-            arr.add(dirMap.get(v.getLabel()));
+
+            arr.add(idMap.get(v1.getLabel()));
+
+            if(i == vertexPath.size() - 1) {
+                arr.add(null);
+            }
+            else {
+                arr.add(dirMap.get(v1.getLabel()).get(vertexPath.get(i + 1).getLabel()));
+            }
             
             path.add(arr);
         }
-        
+      
         JSONObject json = new JSONObject();
         json.put("path", path);
         
