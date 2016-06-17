@@ -56,6 +56,12 @@ public class MeetingRooms implements Serializable {
         this.meetingRoomId = meetingRoomId;
         this.arMarkerId = arMarkerId;
     }
+    
+    public MeetingRooms(Integer meetingRoomId, String name, int arMarkerId) {
+        this.meetingRoomId = meetingRoomId;
+        this.name = name;
+        this.arMarkerId = arMarkerId;
+    }
 
     public Integer getMeetingRoomId() {
         return meetingRoomId;

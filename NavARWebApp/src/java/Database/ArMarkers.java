@@ -35,25 +35,38 @@ public class ArMarkers implements Serializable {
     @Column(name = "ar_marker_id")
     private Integer arMarkerId;
 
+    @Column(name = "ar_marker_image_id")
+    private String arMarkerImageId;    
+    
     public ArMarkers() {
     }
 
-    public ArMarkers(Integer arMarkerId) {
+    public ArMarkers(Integer arMarkerId, String arMarkerImageId) {
         this.arMarkerId = arMarkerId;
+        this.arMarkerImageId = arMarkerImageId;
     }
 
     public Integer getArMarkerId() {
         return arMarkerId;
     }
+    
+    public String getArMarkerImageId() {
+        return arMarkerImageId;
+    }
 
     public void setArMarkerId(Integer arMarkerId) {
         this.arMarkerId = arMarkerId;
     }
+    
+    public void setArMarkerImageId(String arMarkerImageId) {
+        this.arMarkerImageId = arMarkerImageId;
+    }    
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (arMarkerId != null ? arMarkerId.hashCode() : 0);
+        hash += (arMarkerImageId != null ? arMarkerImageId.hashCode() : 0);
         return hash;
     }
 
@@ -74,6 +87,7 @@ public class ArMarkers implements Serializable {
     public String toString() {
         JSONObject json = new JSONObject();
         json.put("ar_marker_id", arMarkerId);
+        json.put("arMarkerImageId", arMarkerImageId);
         return json.toJSONString();
     }
     

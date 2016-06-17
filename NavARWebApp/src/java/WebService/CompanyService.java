@@ -62,7 +62,7 @@ public class CompanyService {
     //TODO werkt niet
     @GET
     @Path("putCompanyByJSON")
-    public String putCompanyByJSON(@QueryParam("jsonCompany")String companyJSONString){
+    public String putCompanyByJSON(@QueryParam("jsonCompany")String companyJSONString){       
         JSONObject returnJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
         try{

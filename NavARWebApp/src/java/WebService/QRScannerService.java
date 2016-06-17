@@ -38,13 +38,17 @@ public class QRScannerService {
 
     @GET
     @Path("setQRStatus")
-    public void setQRStatus(@QueryParam("code") String code) {
+    public String setQRStatus(@QueryParam("code") String code) {
         cache.put(code, true);
+        
+        return "";
     }
 
     @GET
     @Path("unsetQRStatus")
-    public void unsetQRStatus(@QueryParam("code") String code) {
+    public String unsetQRStatus(@QueryParam("code") String code) {
         cache.put(code, false);
+        
+        return "";
     }
 }
