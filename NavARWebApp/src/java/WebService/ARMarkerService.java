@@ -136,15 +136,15 @@ public class ARMarkerService {
             }
         }
         
-        List<String> path = new ArrayList<>();
+        List<JSONArray> path = new ArrayList<>();
         
         for(Vertex v : new Dijkstra(graph, startId).getPathTo(endId)) {
-            List<String> inner = new ArrayList<>();
+            JSONArray arr = new JSONArray();
             
-            inner.add(idMap.get(v.getLabel()));
-            inner.add(dirMap.get(v.getLabel()));
+            arr.add(idMap.get(v.getLabel()));
+            arr.add(dirMap.get(v.getLabel()));
             
-            path.add(JSONArray.toJSONString(inner));
+            path.add(arr);
         }
         
         JSONObject json = new JSONObject();
