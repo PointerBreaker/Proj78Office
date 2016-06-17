@@ -74,7 +74,7 @@ public class ARMarkerService {
         for(Object result : results) {
             Object[] columns = (Object[])result;
             
-            neighbors.add(new ArMarkersNeighbors(Integer.valueOf(columns[2].toString()), Integer.valueOf(columns[0].toString()), Integer.valueOf(columns[1].toString())));
+            neighbors.add(new ArMarkersNeighbors(Integer.valueOf(columns[2].toString()), Integer.valueOf(columns[0].toString()), Integer.valueOf(columns[1].toString()), columns[3].toString()));
         }
         
         return neighbors;
@@ -108,6 +108,7 @@ public class ARMarkerService {
         
         Map<Integer, Vertex> vMap = new HashMap<>();
         Map<String, String> idMap = new HashMap<>();
+        Map<String, String> dirMap = new HashMap<>();
         
         for(ArMarkers marker : markers) {
             Vertex v = new Vertex(marker.getArMarkerId().toString());
@@ -122,6 +123,8 @@ public class ARMarkerService {
         
         for(ArMarkersNeighbors neighbor : neighbors) {
             graph.addEdge(vMap.get(neighbor.getArMarkerId()), vMap.get(neighbor.getArMarkerNeighbor()));
+            
+            dirMap.put(((Integer)neighbor.getArMarkerId()).toString(), neighbor.getDirection());
         }
         
         String endId = null;
@@ -132,10 +135,13 @@ public class ARMarkerService {
             }
         }
         
-        List<String> path = new ArrayList<>();
+        List<String[]> path = new ArrayList<>();
         
         for(Vertex v : new Dijkstra(graph, startId).getPathTo(endId)) {
-            path.add(idMap.get(v.getLabel()));
+            path.add(new String[] {
+                idMap.get(v.getLabel()),
+                dirMap.get(v.getLabel()),
+            });
         }
         
         JSONObject json = new JSONObject();
