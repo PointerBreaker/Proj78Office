@@ -44,8 +44,8 @@ import org.json.simple.JSONObject;
 public class Meetings implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "meeting_id")
     private Integer meetingId;
     @Column(name = "meeting_room_id")

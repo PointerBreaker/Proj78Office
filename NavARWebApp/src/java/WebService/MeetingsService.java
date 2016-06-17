@@ -5,7 +5,6 @@
  */
 package WebService;
 
-
 import Database.Companies;
 import Database.DatabaseManager;
 import WebService.JSONManager;
@@ -16,12 +15,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -74,9 +75,8 @@ public class MeetingsService {
         return json.toJSONString();        
     }
     
-    //TODO test this
+
     //Put doesnt work :/
-    //TODO werkt niet
     @GET
     @Path("putMeeting")
     public String putMeeting(@QueryParam("meetingRoomId") int meeting_room_id,
@@ -85,6 +85,8 @@ public class MeetingsService {
                             @QueryParam("time") String time,
                             @QueryParam("meetingCode") String meeting_code  
                             ){        
+        
+        try{
             JSONObject json = new JSONObject();      
         if(meeting_room_id == 0 && company_id == 0 && 
                 employee_id == 0 && time == null && meeting_code == null ){
@@ -105,7 +107,7 @@ public class MeetingsService {
         }
         if(time != null && !time.equals("")){
             try{            
-            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
+            SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
             newMeeting.setTime(format.parse(time));
             }catch (java.text.ParseException ex) {
                 ex.printStackTrace();
@@ -113,30 +115,35 @@ public class MeetingsService {
                 json.put("reason", "Not the right time format: " + time);
                 return json.toJSONString();
             }  
-        }
+        }        
         
-        
-        if(meeting_code != null){
+        if(meeting_code != null && !meeting_code.equals(null)){
             meeting_code = meeting_code.replace("_", " ");
             newMeeting.setMeetingCode(meeting_code);        
-        }
-        
+        }                
+       
         if(newMeeting != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
-            em.getTransaction().begin();          
-            //TODO maybe first check for existing rows
+            em.getTransaction().begin();
             em.persist(newMeeting);     
             em.getTransaction().commit();
             em.clear();
             em.close();   
             JSONObject jsonReturn = new JSONObject();
-            System.out.println("persisted");
             jsonReturn.put("success", "true");
             return jsonReturn.toJSONString();
         }else{
             JSONObject jsonReturn = new JSONObject();
             jsonReturn.put("success", "false");
             return jsonReturn.toJSONString();
-        }
+        }        
+        }catch(Exception ex){
+            System.out.println(ex);
+            JSONObject jsonReturn = new JSONObject();
+            jsonReturn.put("success", "false");
+            return jsonReturn.toJSONString();        
+        }       
     }    
+        
+    
 }
