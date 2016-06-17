@@ -35,8 +35,6 @@ import org.json.simple.JSONObject;
 public class Employees implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "employee_id")
     private Integer employeeId;
     @Size(max = 45)

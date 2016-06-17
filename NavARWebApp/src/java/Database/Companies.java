@@ -33,8 +33,6 @@ import org.json.simple.JSONObject;
 public class Companies implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "company_id")
     private Integer companyId;
     @Size(max = 45)

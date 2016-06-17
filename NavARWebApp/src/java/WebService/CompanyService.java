@@ -96,6 +96,11 @@ public class CompanyService {
     public String putCompany(@QueryParam("name")String name){
         
         JSONObject returnJsonObject = new JSONObject();
+        if(name == null || name.equals(null)){
+            returnJsonObject.put("reason", "no parameters!");
+            JSONManager.getErrorMessageJSON(returnJsonObject);
+            return returnJsonObject.toJSONString();
+        }
         Companies company = new Companies();
         company.setName(name);
         if(company != null){

@@ -59,7 +59,7 @@ public class EmployeesService {
         return JSONManager.getJSONObjectByList(results, "employees").toJSONString();
     }
     
-    //TODO test this
+   
     @GET    
     @Path("putEmployeeByJSON")
     public String putEmployeeByJSON(@QueryParam("jsonEmployee")String employeeJSONString){
@@ -101,10 +101,19 @@ public class EmployeesService {
         
         JSONObject returnJsonObject = new JSONObject();        
         Employees employee = new Employees();
-        employee.setName(name);
-        employee.setEmailAddress(emailAddress);
-        employee.setPassword(password);
-        employee.setSalt(salt);
+        if(name != null){
+            employee.setName(name);
+        }
+        if(emailAddress != null){
+            employee.setEmailAddress(emailAddress);
+        }
+        if(password != null){
+            employee.setPassword(password);
+        }
+        if(salt != null){
+            employee.setSalt(salt);
+        }
+        
                              
         if(employee != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
