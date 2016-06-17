@@ -42,7 +42,10 @@ public class ArMarkersNeighbors implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-
+    @Basic(optional = false)
+    @Column(name = "direction")
+    private String direction;
+    
     public ArMarkersNeighbors() {
     }
 
@@ -50,10 +53,11 @@ public class ArMarkersNeighbors implements Serializable {
         this.id = id;
     }
 
-    public ArMarkersNeighbors(Integer id, int arMarkerId, int arMarkerNeighbor) {
+    public ArMarkersNeighbors(Integer id, int arMarkerId, int arMarkerNeighbor, String direction) {
         this.id = id;
         this.arMarkerId = arMarkerId;
         this.arMarkerNeighbor = arMarkerNeighbor;
+        this.direction = direction;
     }
 
     public int getArMarkerId() {
@@ -79,6 +83,14 @@ public class ArMarkersNeighbors implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+    
+    public String getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
 
     @Override
     public int hashCode() {
@@ -102,7 +114,7 @@ public class ArMarkersNeighbors implements Serializable {
 
     @Override
     public String toString() {
-        return "image.ArMarkersNeighbors[ id=" + arMarkerId + ", " + "neighbor=" + arMarkerNeighbor + "]";
+        return "image.ArMarkersNeighbors[ id=" + arMarkerId + ", " + "neighbor=" + arMarkerNeighbor + ", direction=" + direction + "]";
     }
     
 }
