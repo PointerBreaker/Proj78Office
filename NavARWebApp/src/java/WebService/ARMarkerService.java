@@ -20,6 +20,7 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -135,13 +136,15 @@ public class ARMarkerService {
             }
         }
         
-        List<String[]> path = new ArrayList<>();
+        List<String> path = new ArrayList<>();
         
         for(Vertex v : new Dijkstra(graph, startId).getPathTo(endId)) {
-            path.add(new String[] {
-                idMap.get(v.getLabel()),
-                dirMap.get(v.getLabel()),
-            });
+            List<String> inner = new ArrayList<>();
+            
+            inner.add(idMap.get(v.getLabel()));
+            inner.add(dirMap.get(v.getLabel()));
+            
+            path.add(JSONArray.toJSONString(inner));
         }
         
         JSONObject json = new JSONObject();
