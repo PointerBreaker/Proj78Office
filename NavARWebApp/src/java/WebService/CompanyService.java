@@ -93,16 +93,21 @@ public class CompanyService {
     
     @GET
     @Path("putCompany")
-    public String putCompany(@QueryParam("name")String name){
+    public String putCompany(@QueryParam("name")String name, @QueryParam("email_address")String email_address){
         
         JSONObject returnJsonObject = new JSONObject();
-        if(name == null || name.equals(null)){
+        if(name == null && email_address == null){
             returnJsonObject.put("reason", "no parameters!");
             JSONManager.getErrorMessageJSON(returnJsonObject);
             return returnJsonObject.toJSONString();
         }
         Companies company = new Companies();
-        company.setName(name);
+        if(name != null){
+            company.setName(name);
+        }
+        if(email_address != null){
+            company.setEmailAddress(email_address);
+        }
         if(company != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
             em.getTransaction().begin();

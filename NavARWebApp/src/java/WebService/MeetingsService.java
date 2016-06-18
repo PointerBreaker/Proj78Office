@@ -10,6 +10,7 @@ import Database.DatabaseManager;
 import WebService.JSONManager;
 import static Database.DatabaseManager.getNewEntityManager;
 import Database.Employees;
+import Database.MeetingRooms;
 import Database.Meetings;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,8 +85,7 @@ public class MeetingsService {
                             @QueryParam("employeeId") int employee_id,
                             @QueryParam("time") String time,
                             @QueryParam("meetingCode") String meeting_code  
-                            ){        
-        
+                            ){      
         try{
             JSONObject json = new JSONObject();      
         if(meeting_room_id == 0 && company_id == 0 && 
@@ -125,10 +125,20 @@ public class MeetingsService {
         if(newMeeting != null){
             EntityManager em = DatabaseManager.getNewEntityManager();
             em.getTransaction().begin();
-            em.persist(newMeeting);     
+            em.persist(newMeeting);  
             em.getTransaction().commit();
             em.clear();
             em.close();   
+            
+            //Only if all the parameters are provided the email should be send.
+            if(company_id != 0 && employee_id != 0 && meeting_room_id != 0 ){
+                Companies company = DatabaseManager.getCompanyById(company_id);
+                Employees employee = DatabaseManager.getEmployeeById(employee_id); 
+                MeetingRooms meetingroom = DatabaseManager.getMeetingRoomById(meeting_room_id); 
+                EmailSenderClass e = new EmailSenderClass();
+                e.sendEmailToCustomer(employee, company, newMeeting, meetingroom);            
+            }          
+            
             JSONObject jsonReturn = new JSONObject();
             jsonReturn.put("success", "true");
             return jsonReturn.toJSONString();

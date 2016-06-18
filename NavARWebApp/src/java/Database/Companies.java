@@ -37,7 +37,18 @@ public class Companies implements Serializable {
     private Integer companyId;
     @Size(max = 45)
     @Column(name = "name")
-    private String name;
+    private String name;    
+    @Size(max = 45)
+    @Column(name = "email_address")
+    private String emailAddress;
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
     public Companies() {
     }
@@ -87,6 +98,7 @@ public class Companies implements Serializable {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("company_id", this.companyId);
         jsonObject.put("name", this.name);
+        jsonObject.put("email_address", emailAddress);
         return jsonObject.toJSONString();
     }
     

@@ -50,9 +50,8 @@ public class CustomerCheckInService {
                 
                 if(employee != null && company != null && meetingObject != null && meetingRoom != null){
                     EmailSenderClass e = new EmailSenderClass();
-                    e.sendEmail(employee, company, meetingObject, meetingRoom);
-                }
-                
+                    e.sendEmailToEmployee(employee, company, meetingObject, meetingRoom);
+                }                
             }         
         }
             em.getTransaction().commit();
@@ -61,52 +60,5 @@ public class CustomerCheckInService {
         
         return "Hello QR-scanner!";    
     }
-    
-//    private Employees getEmployeeById(int employeeId){
-//        
-//        EntityManager em = DatabaseManager.getNewEntityManager();
-//        Query q2 = em.createNamedQuery("Employees.findByEmployeeId");
-//        q2.setParameter("employeeId", employeeId);
-//        JSONObject employees = JSONManager.getJSONObjectByList(q2.getResultList(), "employees");
-//        em.clear();
-//        em.close();        
-//        
-//        if(employees.get("success").equals("false")){
-//            return null;
-//        }
-//        return Employees.createEmployeeByJson((JSONObject) ((JSONArray)employees.get("employees")).get(0));        
-//    }
-//            
-//    private Companies getCompanyById(int companyId){ 
-//        
-//        EntityManager em = DatabaseManager.getNewEntityManager();
-//        Query q2 = em.createNamedQuery("Companies.findByCompanyId");
-//        q2.setParameter("companyId", companyId);
-//        List results = q2.getResultList();
-//        JSONObject companies = JSONManager.getJSONObjectByList(results, "companies");
-//        em.clear();
-//        em.close();
-//            
-//        if(companies.get("success").equals("false")){
-//            return null;
-//        }       
-//        
-//        return Companies.createNewCompanyByJSON((JSONObject) ((JSONArray)companies.get("companies")).get(0));        
-//    }
-//    
-//    private MeetingRooms getMeetingRoomById(int meetingRoomId){
-//        EntityManager em = DatabaseManager.getNewEntityManager();
-//        Query q2 = em.createNamedQuery("MeetingRooms.findByMeetingRoomId");
-//        q2.setParameter("meetingRoomId", meetingRoomId);
-//        JSONObject meetingRooms = JSONManager.getJSONObjectByList(q2.getResultList(), "meetingRooms");
-//        em.clear();
-//        em.close();
-//        
-//        if(meetingRooms.get("success").equals("false")){
-//            return null;
-//        }
-//        
-//        return MeetingRooms.createMeetingRoomByJSON((JSONObject) ((JSONArray)meetingRooms.get("meetingRooms")).get(0));        
-//    }
-    
+        
 }
