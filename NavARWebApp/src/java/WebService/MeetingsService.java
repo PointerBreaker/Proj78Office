@@ -107,7 +107,7 @@ public class MeetingsService {
         }
         if(time != null && !time.equals("")){
             try{            
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             newMeeting.setTime(format.parse(time));
             }catch (java.text.ParseException ex) {
                 ex.printStackTrace();

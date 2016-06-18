@@ -115,7 +115,7 @@ public class Meetings implements Serializable {
     
     public String getDateString(){
         if(time != null){
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             return format.format(time);     
         }             
         return null;
