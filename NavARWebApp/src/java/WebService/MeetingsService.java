@@ -123,6 +123,7 @@ public class MeetingsService {
         }                
        
         if(newMeeting != null){
+            JSONObject jsonReturn = new JSONObject();
             EntityManager em = DatabaseManager.getNewEntityManager();
             em.getTransaction().begin();
             em.persist(newMeeting);  
@@ -130,16 +131,23 @@ public class MeetingsService {
             em.clear();
             em.close();   
             
+            try{
             //Only if all the parameters are provided the email should be send.
             if(company_id != 0 && employee_id != 0 && meeting_room_id != 0 ){
                 Companies company = DatabaseManager.getCompanyById(company_id);
                 Employees employee = DatabaseManager.getEmployeeById(employee_id); 
                 MeetingRooms meetingroom = DatabaseManager.getMeetingRoomById(meeting_room_id); 
                 EmailSenderClass e = new EmailSenderClass();
-                e.sendEmailToCustomer(employee, company, newMeeting, meetingroom);            
-            }          
+                e.sendEmailToCustomer(employee, company, newMeeting, meetingroom);      
+                jsonReturn.put("email send", "true");
+            }  
+            }catch(Exception ex){
+                jsonReturn.put("success", "true");
+                jsonReturn.put("email send", "false");
+                return jsonReturn.toJSONString();   
+            }
             
-            JSONObject jsonReturn = new JSONObject();
+            
             jsonReturn.put("success", "true");
             return jsonReturn.toJSONString();
         }else{
@@ -147,6 +155,7 @@ public class MeetingsService {
             jsonReturn.put("success", "false");
             return jsonReturn.toJSONString();
         }        
+        
         }catch(Exception ex){
             System.out.println(ex);
             JSONObject jsonReturn = new JSONObject();

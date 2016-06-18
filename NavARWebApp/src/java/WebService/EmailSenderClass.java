@@ -22,6 +22,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -65,7 +66,8 @@ public class EmailSenderClass {
     }
     
     
-    private void sendEmail(String recieverEmailAddress, String subject, String messageToSend ){     
+    private void sendEmail(String recieverEmailAddress, String subject, String messageToSend){   
+        
         try{
             Properties props = System.getProperties();
             props.put("mail.smtp.starttls.enable", "true");
@@ -78,6 +80,7 @@ public class EmailSenderClass {
             
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(mailSession);
+            
             message.setFrom(new InternetAddress(applicationEmailAddress));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recieverEmailAddress));
             message.setSubject(subject);
