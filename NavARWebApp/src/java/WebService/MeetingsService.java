@@ -76,6 +76,19 @@ public class MeetingsService {
         return json.toJSONString();        
     }
     
+    @GET
+    @Path("removeMeeting")
+    public String removeMeeting(@QueryParam("meetingId") String meetingId) {
+         EntityManager em = DatabaseManager.getNewEntityManager();
+        em.getTransaction().begin();
+        Query q = em.createNativeQuery("DELETE FROM meetings WHERE meeting_id = " + meetingId);
+        q.executeUpdate();
+        em.getTransaction().commit();
+        em.clear();
+        em.close();
+
+        return "";
+    }
 
     //Put doesnt work :/
     @GET
